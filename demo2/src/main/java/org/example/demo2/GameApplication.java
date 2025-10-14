@@ -14,10 +14,9 @@ public class GameApplication extends Application {
     private GraphicsContext gc;
     private Ball ball;
 
-
     @Override
     public void start(Stage stage) {
-        Canvas canvas = new Canvas();
+        Canvas canvas = new Canvas(WIDTH, HEIGHT);
         gc = canvas.getGraphicsContext2D();
 
         StackPane root = new StackPane(canvas);

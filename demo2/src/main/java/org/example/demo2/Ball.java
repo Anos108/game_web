@@ -18,6 +18,6 @@ public class Ball {
     }
 
     void render(GraphicsContext gc){
-        gc.drawImage(img, x, y, 500, 500);
+        gc.drawImage(img, x, y, 50, 50);
     }
 }
