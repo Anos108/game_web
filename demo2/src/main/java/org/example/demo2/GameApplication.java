@@ -12,54 +12,52 @@ import javafx.stage.Stage;
 import java.util.Objects;
 
 public class GameApplication extends Application {
-    private static final int HEIGHT = 800;
-    private static final int WIDTH = 800;
-    private GraphicsContext gc;
-    private Ball ball;
-    private Paddle paddle;
-    private Brick brick;
-    static Image background;
+  private static final int HEIGHT = 800;
+  private static final int WIDTH = 800;
+  private GraphicsContext gc;
+  private Ball ball;
+  private Paddle paddle;
+  private Brick brick;
+  static Image background;
 
+  @Override
+  public void start(Stage stage) {
+    Canvas canvas = new Canvas(WIDTH, HEIGHT);
+    gc = canvas.getGraphicsContext2D();
 
-    @Override
-    public void start(Stage stage) {
-        Canvas canvas = new Canvas(WIDTH, HEIGHT);
-        gc = canvas.getGraphicsContext2D();
+    StackPane root = new StackPane(canvas);
+    Scene scene = new Scene(root, WIDTH, HEIGHT);
 
-        StackPane root = new StackPane(canvas);
-        Scene scene = new Scene(root,WIDTH,HEIGHT);
+    stage.setTitle("Arkanoid");
+    stage.setScene(scene);
+    stage.show();
 
-        stage.setTitle("Arkanoid");
-        stage.setScene(scene);
-        stage.show();
+    // khoi tao
+    ball = new Ball(50, 50);
+    paddle = new Paddle(319, 773);
+    brick = new Brick(100, 100, 680, 75);
+    background =
+        new Image(
+            Objects.requireNonNull(getClass().getResourceAsStream("/asset/images/background.jpg")));
 
-        //khoi tao
-        ball = new Ball(50,50);
-        paddle = new Paddle(319,773);
-        brick = new Brick(100,100,680,75);
-        background = new Image(Objects.requireNonNull(
-                getClass().getResourceAsStream("/asset/images/background.jpg")));
-
-        AnimationTimer gameLoop = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                    update();
-                    render();
-            }
+    AnimationTimer gameLoop =
+        new AnimationTimer() {
+          @Override
+          public void handle(long now) {
+            update();
+            render();
+          }
         };
-        gameLoop.start();
+    gameLoop.start();
+  }
 
-    }
+  private void update() {}
 
-    private void update(){
-
-    }
-    private void render(){
-        gc.clearRect(0, 0, WIDTH, HEIGHT);
-        gc.drawImage(background, 0, 0, WIDTH, HEIGHT);
-        ball.render(gc);
-        paddle.render(gc);
-        brick.render(gc);
-
-    }
+  private void render() {
+    gc.clearRect(0, 0, WIDTH, HEIGHT);
+    gc.drawImage(background, 0, 0, WIDTH, HEIGHT);
+    ball.render(gc);
+    paddle.render(gc);
+    brick.render(gc);
+  }
 }
