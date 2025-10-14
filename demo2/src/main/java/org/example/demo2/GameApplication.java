@@ -16,7 +16,9 @@ public class GameApplication extends Application {
     private static final int WIDTH = 800;
     private GraphicsContext gc;
     private Ball ball;
+    private Paddle paddle;
     static Image background;
+
 
     @Override
     public void start(Stage stage) {
@@ -32,6 +34,7 @@ public class GameApplication extends Application {
 
         //khoi tao
         ball = new Ball(50,50);
+        paddle = new Paddle(319,773);
         background = new Image(Objects.requireNonNull(
                 getClass().getResourceAsStream("/asset/images/background.jpg")));
 
@@ -53,5 +56,7 @@ public class GameApplication extends Application {
         gc.clearRect(0, 0, WIDTH, HEIGHT);
         gc.drawImage(background, 0, 0, WIDTH, HEIGHT);
         ball.render(gc);
+        paddle.render(gc);
+
     }
 }

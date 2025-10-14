@@ -5,18 +5,19 @@ import javafx.scene.image.Image;
 
 import java.util.Objects;
 
-public class Ball {
+public class Paddle {
   private int x, y;
   static Image img;
 
-  Ball(int x, int y) {
+  Paddle(int x, int y) {
     this.x = x;
     this.y = y;
     img =
-        new Image(Objects.requireNonNull(getClass().getResourceAsStream("/asset/images/ball.png")));
+        new Image(
+            Objects.requireNonNull(getClass().getResourceAsStream("/asset/images/paddle.png")));
   }
 
   void render(GraphicsContext gc) {
-    gc.drawImage(img, x, y, 50, 50);
+    gc.drawImage(img, x, y, 100, 20);
   }
 }
