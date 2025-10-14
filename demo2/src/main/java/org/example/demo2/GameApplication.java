@@ -2,18 +2,15 @@ package org.example.demo2;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
-public class HelloApplication extends Application {
+public class GameApplication extends Application {
     private static final int HEIGHT = 800;
-    private static final int WEIGHT = 800;
+    private static final int WIDTH = 800;
     private GraphicsContext gc;
 
     @Override
@@ -22,7 +19,7 @@ public class HelloApplication extends Application {
         gc = canvas.getGraphicsContext2D();
 
         StackPane root = new StackPane(canvas);
-        Scene scene = new Scene(root,WEIGHT,HEIGHT);
+        Scene scene = new Scene(root,WIDTH,HEIGHT);
 
         stage.setTitle("Arkanoid");
         stage.setScene(scene);
@@ -43,6 +40,7 @@ public class HelloApplication extends Application {
 
     }
     private void render(){
-
+        gc.clearRect(0, 0, WIDTH, HEIGHT);
+        gc.fillOval(50, 50, 50, 50);
     }
 }
