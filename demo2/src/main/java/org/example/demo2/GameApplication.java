@@ -12,6 +12,8 @@ public class GameApplication extends Application {
     private static final int HEIGHT = 800;
     private static final int WIDTH = 800;
     private GraphicsContext gc;
+    private Ball ball;
+
 
     @Override
     public void start(Stage stage) {
@@ -24,6 +26,9 @@ public class GameApplication extends Application {
         stage.setTitle("Arkanoid");
         stage.setScene(scene);
         stage.show();
+
+        //khoi tao
+        ball = new Ball(50,50);
 
         AnimationTimer gameLoop = new AnimationTimer() {
             @Override
@@ -41,6 +46,6 @@ public class GameApplication extends Application {
     }
     private void render(){
         gc.clearRect(0, 0, WIDTH, HEIGHT);
-        gc.fillOval(50, 50, 50, 50);
+        ball.render(gc);
     }
 }
