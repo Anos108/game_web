@@ -14,10 +14,10 @@ public class Config {
     public static final double paddleX = 319;
     public static final double paddleY = 773;
 
-    public static final double brickX = 260;
-    public static final double brickY = 725;
+    public static final double brickX = 150;
+    public static final double brickY = 100;
     public static final double brickWidth = 600;
-    public static final double brickHeight = 20;
+    public static final double brickHeight = 40;
 
     public static final String IMAGE_PATH = "/asset/images/";
     public static final String SOUND_PATH = "/asset/sounds/";
