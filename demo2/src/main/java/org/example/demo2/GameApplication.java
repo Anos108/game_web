@@ -10,6 +10,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.Objects;
 
 public class GameApplication extends Application {
@@ -18,7 +21,7 @@ public class GameApplication extends Application {
     private GraphicsContext gc;
     private Ball ball;
     private Paddle paddle;
-    Bricks.BrickOrange brickOrange ;
+    private List<Bricks.Brick> bricks;
     static Image background;
 
 
@@ -37,9 +40,12 @@ public class GameApplication extends Application {
         //khoi tao
         ball = new Ball(Config.ballX,Config.ballY);
         paddle = new Paddle(Config.paddleX,Config.paddleY);
-        brickOrange = new Bricks.BrickOrange(Config.brickX, Config.brickY, Config.brickWidth, Config.brickHeight);
         background = new Image(Objects.requireNonNull(
                 getClass().getResourceAsStream("/asset/images/background.jpg")));
+
+        // Khởi tạo danh sách gạch và tạo màn chơi
+        bricks = new ArrayList<>();
+        createLevel();
 
         //key sensor
         scene.setOnKeyPressed(e->{
@@ -61,7 +67,56 @@ public class GameApplication extends Application {
         gameLoop.start();
 
     }
+    private void createLevel() {
+        // Sửa số hàng thành 8 để có 8 màu
+        Random random = new Random();
+        int rows = 8;
+        int cols = 8;
+        double brickWidth = Config.brickWidth;
+        double brickHeight = Config.brickHeight;
+        double startX = 65; // Căn chỉnh vị trí bắt đầu của khối gạch
+        double startY = 50; // Dịch lên một chút cho đủ chỗ
+        double padding = 5; // Khoảng cách giữa các viên gạch
 
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                double x = startX + c * (brickWidth + padding);
+                double y = startY + r * (brickHeight + padding);
+
+                Bricks.Brick newBrick;
+                // Thêm case cho đủ 8 màu
+                int colorRandom = random.nextInt(8);
+                switch (colorRandom) {
+                    case 0:
+                        newBrick = new Bricks.BrickRed(x, y, brickWidth, brickHeight);
+                        break;
+                    case 1:
+                        newBrick = new Bricks.BrickOrange(x, y, brickWidth, brickHeight);
+                        break;
+                    case 2:
+                        newBrick = new Bricks.BrickYellow(x, y, brickWidth, brickHeight);
+                        break;
+                    case 3:
+                        newBrick = new Bricks.BrickGreen(x, y, brickWidth, brickHeight);
+                        break;
+                    case 4:
+                        newBrick = new Bricks.BrickLightBlue(x, y, brickWidth, brickHeight);
+                        break;
+                    case 5:
+                        newBrick = new Bricks.BrickBlue(x, y, brickWidth, brickHeight);
+                        break;
+                    case 6:
+                        newBrick = new Bricks.BrickPink(x, y, brickWidth, brickHeight);
+                        break;
+                    case 7:
+                    default:
+                        newBrick = new Bricks.BrickPurple(x, y, brickWidth, brickHeight);
+                        break;
+                }
+                bricks.add(newBrick);
+            }
+        }
+    }
     private void update(){
         ball.update();
         paddle.update(Config.leftPressed,Config.rightPressed);
@@ -71,8 +126,8 @@ public class GameApplication extends Application {
         gc.drawImage(background, 0, 0, WIDTH, HEIGHT);
         ball.render(gc);
         paddle.render(gc);
-        brickOrange.render(gc);
-
-
+        for (Bricks.Brick brick : bricks) {
+            brick.render(gc);
+        }
     }
 }
