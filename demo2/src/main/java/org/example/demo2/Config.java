@@ -17,7 +17,7 @@ public class Config {
     public static final double brickX = 150;
     public static final double brickY = 100;
     public static final double brickWidth = (double) 70 ;
-    public static final double brickHeight = (double) 37.5 ;
+    public static final double brickHeight = (double) 37 ;
 
     public static final String IMAGE_PATH = "/asset/images/";
     public static final String SOUND_PATH = "/asset/sounds/";
