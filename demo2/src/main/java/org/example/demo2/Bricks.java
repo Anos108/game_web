@@ -36,7 +36,6 @@ public class Bricks {
       this.height = height;
     }
 
-
     protected void render(GraphicsContext gc, double srcX, double srcY) {
       gc.drawImage(
           img,
@@ -50,10 +49,8 @@ public class Bricks {
           Config.brickHeight);
     }
 
-
     public abstract void render(GraphicsContext gc);
   }
-
 
   public static class BrickOrange extends Brick {
     BrickOrange(double x, double y, double width, double height) {
