@@ -43,7 +43,6 @@ public class GameApplication extends Application {
         new Image(
             Objects.requireNonNull(getClass().getResourceAsStream("/asset/images/background.jpg")));
 
-    // Khởi tạo danh sách gạch và tạo màn chơi
     bricks = new ArrayList<>();
     createLevel();
 
@@ -73,13 +72,13 @@ public class GameApplication extends Application {
   private void createLevel() {
     // Sửa số hàng thành 8 để có 8 màu
     Random random = new Random();
-    int rows = 8;
+    int rows = 4;
     int cols = 8;
     double brickWidth = Config.brickWidth;
     double brickHeight = Config.brickHeight;
-    double startX = 65; // Căn chỉnh vị trí bắt đầu của khối gạch
-    double startY = 50; // Dịch lên một chút cho đủ chỗ
-    double padding = 5; // Khoảng cách giữa các viên gạch
+    double startX = 65;
+    double startY = 50;
+    double padding = 5;
 
     for (int r = 0; r < rows; r++) {
       for (int c = 0; c < cols; c++) {
