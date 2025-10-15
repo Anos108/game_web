@@ -18,7 +18,7 @@ public class GameApplication extends Application {
     private GraphicsContext gc;
     private Ball ball;
     private Paddle paddle;
-    private Brick brick;
+    Bricks.BrickOrange brickOrange ;
     static Image background;
 
 
@@ -37,7 +37,7 @@ public class GameApplication extends Application {
         //khoi tao
         ball = new Ball(Config.ballX,Config.ballY);
         paddle = new Paddle(Config.paddleX,Config.paddleY);
-        brick = new Brick(Config.brickX, Config.brickY, Config.brickWidth, Config.brickHeight);
+        brickOrange = new Bricks.BrickOrange(Config.brickX, Config.brickY, Config.brickWidth, Config.brickHeight);
         background = new Image(Objects.requireNonNull(
                 getClass().getResourceAsStream("/asset/images/background.jpg")));
 
@@ -71,7 +71,8 @@ public class GameApplication extends Application {
         gc.drawImage(background, 0, 0, WIDTH, HEIGHT);
         ball.render(gc);
         paddle.render(gc);
-        brick.render(gc);
+        brickOrange.render(gc);
+
 
     }
 }

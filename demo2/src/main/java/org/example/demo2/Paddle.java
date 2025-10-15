@@ -16,7 +16,7 @@ public class Paddle {
         this.y = y;
         img =
                 new Image(
-                        Objects.requireNonNull(getClass().getResourceAsStream("/asset/images/paddle.png")));
+                        Objects.requireNonNull(getClass().getResourceAsStream(Config.IMAGE_PATH+"paddle.png")));
     }
 
     void render(GraphicsContext gc) {

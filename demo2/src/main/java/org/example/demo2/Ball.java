@@ -13,7 +13,7 @@ public class Ball {
         this.x=x;
         this.y=y;
         img = new Image(Objects.requireNonNull(
-                getClass().getResourceAsStream("/asset/images/ball.png")
+                getClass().getResourceAsStream(Config.IMAGE_PATH+"ball.png")
 
         ));
     }
