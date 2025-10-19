@@ -11,8 +11,10 @@ public class Bricks {
     private final double x, y;
     private final double width, height;
 
-    private static final double SPRITE_WIDTH = 70;
-    private static final double SPRITE_HEIGHT = 37;
+    //sử dụng kĩ thuật sprite sheet để cắt ảnh
+    // Kích thước thực tế từ sprite sheet (64x32 cho mỗi viên gạch)
+    private static final double SPRITE_WIDTH = 64;
+    private static final double SPRITE_HEIGHT = 32;
 
     static final Image img;
 
@@ -24,7 +26,7 @@ public class Bricks {
                     Brick.class.getResourceAsStream(Config.IMAGE_PATH + "brick.png")));
       } catch (NullPointerException e) {
         System.err.println(
-            "Không tìm thấy file ảnh brick.png. Kiểm tra lại đường dẫn trong Config.java!");
+            "Không tìm thấy file ảnh BasicArkanoidPack.png. Kiểm tra lại đường dẫn trong thư mục asset/images!");
         throw new RuntimeException(e);
       }
     }
@@ -70,7 +72,7 @@ public class Bricks {
 
     @Override
     public void render(GraphicsContext gc) {
-      render(gc, 70, 0);
+      render(gc, 72, 0);
     }
   }
 
@@ -81,7 +83,7 @@ public class Bricks {
 
     @Override
     public void render(GraphicsContext gc) {
-      render(gc, 140, 0);
+      render(gc, 144, 0);
     }
   }
 
@@ -92,7 +94,7 @@ public class Bricks {
 
     @Override
     public void render(GraphicsContext gc) {
-      render(gc, 210, 0);
+      render(gc, 216, 0);
     }
   }
 
@@ -103,7 +105,7 @@ public class Bricks {
 
     @Override
     public void render(GraphicsContext gc) {
-      render(gc, 0, 37);
+      render(gc, 0, 40);
     }
   }
 
@@ -114,7 +116,7 @@ public class Bricks {
 
     @Override
     public void render(GraphicsContext gc) {
-      render(gc, 70, 37);
+      render(gc, 72, 40);
     }
   }
 
@@ -125,7 +127,7 @@ public class Bricks {
 
     @Override
     public void render(GraphicsContext gc) {
-      render(gc, 140, 37);
+      render(gc, 144, 40);
     }
   }
 
@@ -136,7 +138,7 @@ public class Bricks {
 
     @Override
     public void render(GraphicsContext gc) {
-      render(gc, 210, 37);
+      render(gc, 216, 40);
     }
   }
 }

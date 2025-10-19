@@ -78,7 +78,7 @@ public class GameApplication extends Application {
         double brickHeight = Config.brickHeight;
         double startX = 65; // Căn chỉnh vị trí bắt đầu của khối gạch
         double startY = 50; // Dịch lên một chút cho đủ chỗ
-        double padding = 5; // Khoảng cách giữa các viên gạch
+        double padding = 15; // Khoảng cách giữa các viên gạch
 
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
@@ -86,8 +86,7 @@ public class GameApplication extends Application {
                 double y = startY + r * (brickHeight + padding);
 
                 Bricks.Brick newBrick;
-                // Thêm case cho đủ 8 màu
-                int colorRandom = random.nextInt(8);
+                int colorRandom = random.nextInt(8); // Có 8 loại gạch màu trong sprite sheet
                 newBrick =
                         switch (colorRandom) {
                             case 0 -> new Bricks.BrickRed(x, y, brickWidth, brickHeight);
