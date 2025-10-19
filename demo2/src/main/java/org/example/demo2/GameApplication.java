@@ -102,6 +102,14 @@ public class GameApplication extends Application {
     private void update() {
         ball.update();
         paddle.update(Config.leftPressed, Config.rightPressed);
+        if (Config.interact(ball.getBounds(),paddle.getBounds())) {
+            ball.setInteract();
+        }
+        for (Bricks.Brick brick : bricks) {
+            if (Config.interact(ball.getBounds(),brick.getBounds())){
+                ball.setInteract();
+            }
+        }
     }
 
     private void render() {

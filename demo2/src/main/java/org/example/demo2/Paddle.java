@@ -1,5 +1,6 @@
 package org.example.demo2;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -30,10 +31,15 @@ public class Paddle {
     if (right) {
       this.x += this.SPEED;
     }
+
   }
 
   public void setPaddle(double x, double y) {
     this.x = x;
     this.y = y;
   }
+
+    public Rectangle2D getBounds(){
+        return new Rectangle2D(x, y, 90, 0);
+    }
 }

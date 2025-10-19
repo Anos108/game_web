@@ -4,6 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
+import javafx.geometry.Rectangle2D;
 import java.util.Objects;
 
 public class Bricks {
@@ -30,6 +31,10 @@ public class Bricks {
 
         void render(GraphicsContext gc) {
             gc.drawImage(img, this.x, this.y, Config.brickWidth, Config.brickHeight);
+        }
+
+        public Rectangle2D getBounds(){
+            return new Rectangle2D(x, y, Config.brickHeight, Config.brickHeight);
         }
     }
 
@@ -59,6 +64,8 @@ public class Bricks {
             super(x, y, width, height,"brickPurple.png");
         }
     }
+
+
 
 
 }
