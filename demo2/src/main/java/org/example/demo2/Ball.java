@@ -1,5 +1,6 @@
 package org.example.demo2;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -50,51 +51,44 @@ public class Ball {
         }
     }
 
-    // Va chạm với paddle
+    // Va chạm với paddle (sử dụng Rectangle2D)
     void checkPaddleCollision(Paddle paddle) {
-        double paddleX = paddle.getX();
-        double paddleY = paddle.getY();
-        double paddleWidth = paddle.getWidth();
-        double paddleHeight = 20; // Chiều cao paddle thực tế
+        Rectangle2D ballBounds = getBounds();
+        Rectangle2D paddleBounds = paddle.getBounds();
 
-        // Kiểm tra va chạm
-        if (x + BALL_SIZE >= paddleX && x <= paddleX + paddleWidth &&
-            y + BALL_SIZE >= paddleY && y <= paddleY + paddleHeight) {
-            
+        // Kiểm tra va chạm sử dụng Rectangle2D.intersects()
+        if (ballBounds.intersects(paddleBounds)) {
             velocityY = -Math.abs(velocityY); // Đảm bảo bóng nảy lên
-            y = paddleY - BALL_SIZE; // Đặt bóng ngay phía trên paddle
+            y = paddle.getY() - BALL_SIZE; // Đặt bóng ngay phía trên paddle
 
             // Thay đổi góc nảy dựa trên vị trí va chạm trên paddle
-            double hitPos = (x + BALL_SIZE / 2 - paddleX) / paddleWidth;
+            double hitPos = (x + BALL_SIZE / 2 - paddle.getX()) / paddle.getWidth();
             velocityX = (hitPos - 0.5) * 6; // Tạo góc nảy từ -3 đến 3
         }
     }
 
-    // Va chạm với brick
+    // Va chạm với brick (sử dụng Rectangle2D)
     boolean checkBrickCollision(Bricks.Brick brick) {
-        double brickX = brick.getX();
-        double brickY = brick.getY();
-        double brickWidth = brick.getWidth();
-        double brickHeight = brick.getHeight();
+        Rectangle2D ballBounds = getBounds();
+        Rectangle2D brickBounds = brick.getBounds();
 
-        // Kiểm tra va chạm
-        if (x + BALL_SIZE >= brickX && x <= brickX + brickWidth &&
-            y + BALL_SIZE >= brickY && y <= brickY + brickHeight) {
-            
-            // Xác định va chạm từ phía nào
-            double overlapLeft = x + BALL_SIZE - brickX;
-            double overlapRight = brickX + brickWidth - x;
-            double overlapTop = y + BALL_SIZE - brickY;
-            double overlapBottom = brickY + brickHeight - y;
+        // Kiểm tra va chạm sử dụng Rectangle2D.intersects()
+        if (ballBounds.intersects(brickBounds)) {
+            // Tính toán overlap để xác định hướng va chạm
+            double overlapLeft = ballBounds.getMaxX() - brickBounds.getMinX();
+            double overlapRight = brickBounds.getMaxX() - ballBounds.getMinX();
+            double overlapTop = ballBounds.getMaxY() - brickBounds.getMinY();
+            double overlapBottom = brickBounds.getMaxY() - ballBounds.getMinY();
 
+            // Tìm overlap nhỏ nhất để xác định hướng va chạm chính
             double minOverlap = Math.min(Math.min(overlapLeft, overlapRight),
                                         Math.min(overlapTop, overlapBottom));
 
             // Nảy theo hướng va chạm
             if (minOverlap == overlapLeft || minOverlap == overlapRight) {
-                velocityX = -velocityX;
+                velocityX = -velocityX; // Va chạm từ trái/phải
             } else {
-                velocityY = -velocityY;
+                velocityY = -velocityY; // Va chạm từ trên/dưới
             }
 
             return true; // Brick bị phá
@@ -119,4 +113,9 @@ public class Ball {
     public double getX() { return x; }
     public double getY() { return y; }
     public double getSize() { return BALL_SIZE; }
+
+    // Trả về bounds (hình chữ nhật bao quanh) của bóng
+    public Rectangle2D getBounds() {
+        return new Rectangle2D(x, y, BALL_SIZE, BALL_SIZE);
+    }
 }

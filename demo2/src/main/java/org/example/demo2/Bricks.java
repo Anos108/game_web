@@ -1,8 +1,8 @@
 package org.example.demo2;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 
 import java.util.Objects;
 
@@ -11,11 +11,9 @@ public class Bricks {
   public abstract static class Brick {
     private final double x, y;
     private final double width, height;
-    private static String urlImg;
     private final Image img;
 
     Brick(double x, double y, double width, double height, String urlImg) {
-      this.urlImg = urlImg;
       this.x = x;
       this.y = y;
       this.width = width;
@@ -28,19 +26,28 @@ public class Bricks {
     void render(GraphicsContext gc) {
       gc.drawImage(img, this.x, this.y, Config.brickWidth, Config.brickHeight);
     }
-      public double getX(){
-          return x;
-      }
-      public double getY(){
-        return y;
-      }
-      public double getHeight(){
-        return height;
-      }
-      public double getWidth(){
-        return width;
-      }
 
+    // Getters
+    public double getX() {
+      return x;
+    }
+
+    public double getY() {
+      return y;
+    }
+
+    public double getHeight() {
+      return height;
+    }
+
+    public double getWidth() {
+      return width;
+    }
+
+    // Trả về bounds (hình chữ nhật bao quanh) của brick
+    public Rectangle2D getBounds() {
+      return new Rectangle2D(x, y, width, height);
+    }
   }
 
   public static class BrickOrange extends Brick {
