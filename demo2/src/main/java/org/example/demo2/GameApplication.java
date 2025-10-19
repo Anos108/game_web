@@ -76,9 +76,9 @@ public class GameApplication extends Application {
         int cols = 8;
         double brickWidth = Config.brickWidth;
         double brickHeight = Config.brickHeight;
-        double startX = 65; // Căn chỉnh vị trí bắt đầu của khối gạch
+        double startX = 65; // Căn chỉnh vị trí bắt đầu của khối gạch (với kích thước 93px)
         double startY = 50; // Dịch lên một chút cho đủ chỗ
-        double padding = 15; // Khoảng cách giữa các viên gạch
+        double padding = 15; // Khoảng cách giữa các viên gạch (phù hợp với sprite sheet mới)
 
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
