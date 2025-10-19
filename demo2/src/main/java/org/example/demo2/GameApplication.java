@@ -41,7 +41,7 @@ public class GameApplication extends Application {
         paddle = new Paddle(Config.paddleX, Config.paddleY);
         background =
                 new Image(
-                        Objects.requireNonNull(getClass().getResourceAsStream("/asset/images/background.jpg")));
+                        Objects.requireNonNull(getClass().getResourceAsStream("/asset/images/background.png")));
 
         // Khởi tạo danh sách gạch và tạo màn chơi
         bricks = new ArrayList<>();
@@ -86,16 +86,12 @@ public class GameApplication extends Application {
                 double y = startY + r * (brickHeight + padding);
 
                 Bricks.Brick newBrick;
-                int colorRandom = random.nextInt(8); // Có 8 loại gạch màu trong sprite sheet
+                int colorRandom = random.nextInt(4); // Có 8 loại gạch màu trong sprite sheet
                 newBrick =
                         switch (colorRandom) {
                             case 0 -> new Bricks.BrickRed(x, y, brickWidth, brickHeight);
                             case 1 -> new Bricks.BrickOrange(x, y, brickWidth, brickHeight);
-                            case 2 -> new Bricks.BrickYellow(x, y, brickWidth, brickHeight);
-                            case 3 -> new Bricks.BrickGreen(x, y, brickWidth, brickHeight);
-                            case 4 -> new Bricks.BrickLightBlue(x, y, brickWidth, brickHeight);
-                            case 5 -> new Bricks.BrickBlue(x, y, brickWidth, brickHeight);
-                            case 6 -> new Bricks.BrickPink(x, y, brickWidth, brickHeight);
+                            case 2 -> new Bricks.BrickGreen(x, y, brickWidth, brickHeight);
                             default -> new Bricks.BrickPurple(x, y, brickWidth, brickHeight);
                         };
                 bricks.add(newBrick);
