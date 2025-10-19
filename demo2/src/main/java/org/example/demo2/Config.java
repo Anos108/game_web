@@ -11,8 +11,8 @@ public class Config {
   public static final double ballX = 50;
   public static final double ballY = 50;
 
-  public static final double paddleX = 319;
-  public static final double paddleY = 773;
+  public static final double paddleX = 0;
+  public static final double paddleY = 700;
 
   public static final double brickX = 150;
   public static final double brickY = 100;

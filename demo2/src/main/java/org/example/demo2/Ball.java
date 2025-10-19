@@ -8,7 +8,7 @@ import java.util.Objects;
 public class Ball {
     private double x,y;
     static Image img;
-    private double SPEED=1;
+    private double SPEED=5;
     Ball(double x, double y){
         this.x=x;
         this.y=y;

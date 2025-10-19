@@ -8,7 +8,7 @@ import java.util.Objects;
 public class Paddle {
   private double x, y;
   static Image img;
-  private double SPEED = 1.5;
+  private double SPEED = 3.5;
 
   Paddle(double x, double y) {
     this.x = x;
@@ -20,7 +20,7 @@ public class Paddle {
   }
 
   void render(GraphicsContext gc) {
-    gc.drawImage(img, x, y, 100, 20);
+    gc.drawImage(img, x, y, 120, 120);
   }
 
   void update(boolean left, boolean right) {
