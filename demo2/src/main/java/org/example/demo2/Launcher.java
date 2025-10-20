@@ -6,11 +6,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException; // Nhớ import
+import java.io.IOException;
 
 public class Launcher extends Application {
 
-    // Vứt hết biến WIDTH, HEIGHT, gc... ở đây đi
 
     @Override
     public void start(Stage primaryStage) {
