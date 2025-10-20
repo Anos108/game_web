@@ -16,8 +16,6 @@ public class MainMenuController {
   @FXML
   void initialize() {
     System.out.println("Menu Controller đã được khởi tạo!");
-    // Ông có thể set style hay text gì đó ở đây
-
   }
 
   @FXML
@@ -25,14 +23,12 @@ public class MainMenuController {
     System.out.println("Nút Start đã được bấm! Đang khởi tạo GameView...");
 
     try {
-      // 1. Lấy Stage (cửa sổ) hiện tại từ cái nút đã bấm
+
       Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-      // 2. Tạo một đối tượng GameView mới
       GameView gameView = new GameView();
 
-      // 3. Gọi hàm startGame() bên trong GameView và truyền Stage vào
-      gameView.startGame(stage); // <-- Đây là mấu chốt
+      gameView.startGame(stage);
 
     } catch (Exception e) {
       System.err.println("LỖI: Không thể khởi động GameView.");
