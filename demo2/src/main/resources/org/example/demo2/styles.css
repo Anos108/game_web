@@ -1,0 +1,12 @@
+/* Styles for MainMenu */
+.root {
+    -fx-background-image: url("../../../asset/images/background.png");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.start-button {
+    -fx-background-image: url("../../../asset/images/background.png");
+    -fx-background-size: cover;
+}
+
