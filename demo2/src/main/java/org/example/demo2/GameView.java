@@ -1,7 +1,6 @@
 package org.example.demo2;
 
 import javafx.animation.AnimationTimer;
-import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Objects;
 
-public class GameApplication extends Application {
+public class GameView  {
     private static final int HEIGHT = 800;
     private static final int WIDTH = 800;
     private GraphicsContext gc;
@@ -24,8 +23,8 @@ public class GameApplication extends Application {
     private List<Bricks.Brick> bricks;
     static Image background;
 
-    @Override
-    public void start(Stage stage) {
+
+    public void startGame(Stage stage) {
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         gc = canvas.getGraphicsContext2D();
 
@@ -105,18 +104,18 @@ public class GameApplication extends Application {
         paddle.update(Config.leftPressed, Config.rightPressed);
 
         // Kiểm tra va chạm với tường
-        ball.checkWallCollision();
+        ball.CheckWallCollision();
 
         // Kiểm tra va chạm với paddle
         ball.checkPaddleCollision(paddle);
 
         // Kiểm tra va chạm với bricks và xóa brick nếu bị va chạm
-        for (int i = bricks.size() - 1; i >= 0; i--) {
-            Bricks.Brick brick = bricks.get(i);
-            if (ball.checkBrickCollision(brick)) {
-                bricks.remove(i); // Xóa brick khi bị đập
-            }
-        }
+//        for (int i = bricks.size() - 1; i >= 0; i--) {
+//            Bricks.Brick brick = bricks.get(i);
+//            if (ball.checkBrickCollision(brick)) {
+//                bricks.remove(i); // Xóa brick khi bị đập
+//            }
+//        }
     }
 
     private void render() {
