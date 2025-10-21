@@ -12,28 +12,53 @@
     <children>
         <ImageView fitHeight="800.0" fitWidth="800.0" layoutY="-1.0">
             <image>
-                <Image url="@../../../asset/images/background.png"/>
+                <Image url="@../../../asset/images/menu_background.png"/>
             </image>
         </ImageView>
-        <Label alignment="CENTER" layoutX="281.0" layoutY="68.0" prefHeight="79.0" prefWidth="238.0" text="Arkanoid"
-               textAlignment="CENTER" textFill="RED">
-            <font>
-                <Font size="58.0"/>
-            </font>
-        </Label>
-        <Button fx:id="startButton" alignment="CENTER" layoutX="324.0" layoutY="204.0" mnemonicParsing="false"
-                onAction="#handleStartGame" prefHeight="51.0" prefWidth="151.0" style="-fx-background-color: violet;"
-                text="Start" textAlignment="CENTER" textFill="#294ec4">
-            <font>
-                <Font size="35.0"/>
-            </font>
-        </Button>
-        <Button fx:id="exitButton" layoutX="324.0" layoutY="305.0" mnemonicParsing="false" onAction="#handleExit"
-                prefHeight="75.0" prefWidth="151.0" style="-fx-background-color: violet;" text="Exit"
-                textAlignment="CENTER" textFill="#294ec4">
-            <font>
-                <Font size="35.0"/>
-            </font>
-        </Button>
+        <ImageView layoutX="300.0" layoutY="50.0" fitWidth="700.0" fitHeight="230.0" preserveRatio="true">
+            <image>
+                <Image url="@../../../asset/images/ark.png"/>
+            </image>
+        </ImageView>
+        <ImageView layoutX="370.0" layoutY="300.0" fitWidth="600.0" fitHeight="65.0" preserveRatio="true">
+            <image>
+                <Image url="@../../../asset/images/play.png"/>
+            </image>
+        </ImageView>
+        <Button fx:id="startButton" layoutX="370.0" layoutY="300.0" prefWidth="600.0" prefHeight="65.0"
+                onAction="#handleStartGame" style="-fx-background-color: transparent;" text="" />
+        <ImageView layoutX="370.0" layoutY="370.0" fitWidth="600.0" fitHeight="65.0" preserveRatio="true">
+            <image>
+                <Image url="@../../../asset/images/setting.png"/>
+            </image>
+        </ImageView>
+
+        <Button fx:id="settingsButton" layoutX="370.0" layoutY="370.0" prefWidth="600.0" prefHeight="65.0"
+                onAction="#handleSettings" style="-fx-background-color: transparent;" text="" />
+        <ImageView layoutX="370.0" layoutY="440.0" fitWidth="600.0" fitHeight="65.0" preserveRatio="true">
+            <image>
+                <Image url="@../../../asset/images/exit.png"/>
+            </image>
+        </ImageView>
+
+        <Button fx:id="exitButton" layoutX="370.0" layoutY="440.0" prefWidth="600.0" prefHeight="65.0"
+                onAction="#handleExit" style="-fx-background-color: transparent;" text="" />
+        <ImageView layoutX="370.0" layoutY="510.0" fitWidth="600.0" fitHeight="65.0" preserveRatio="true">
+            <image>
+                <Image url="@../../../asset/images/easy.png"/>
+            </image>
+        </ImageView>
+        <ImageView layoutX="370.0" layoutY="580.0" fitWidth="600.0" fitHeight="65.0" preserveRatio="true">
+            <image>
+                <Image url="@../../../asset/images/medium.png"/>
+            </image>
+        </ImageView>
+
+        <ImageView layoutX="370.0" layoutY="650.0" fitWidth="600.0" fitHeight="65.0" preserveRatio="true">
+            <image>
+                <Image url="@../../../asset/images/hard.png"/>
+            </image>
+        </ImageView>
+
     </children>
 </AnchorPane>
