@@ -40,6 +40,6 @@ public class Paddle {
   }
 
     public Rectangle2D getBounds(){
-        return new Rectangle2D(x, y, 90, 0);
+        return new Rectangle2D(x, y, 90, 20);
     }
 }

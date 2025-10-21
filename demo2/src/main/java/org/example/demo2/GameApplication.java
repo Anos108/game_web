@@ -2,6 +2,8 @@ package org.example.demo2;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -10,6 +12,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -25,7 +28,7 @@ public class GameApplication extends Application {
     static Image background;
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws IOException {
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         gc = canvas.getGraphicsContext2D();
 
@@ -33,6 +36,10 @@ public class GameApplication extends Application {
         Scene scene = new Scene(root, WIDTH, HEIGHT);
 
         stage.setTitle("Arkanoid");
+//        Parent root1 = FXMLLoader.load((getClass().getResource("/org.example.demo2/menu.fxml")));
+//        Scene menu = new Scene(root1);
+//        stage.setScene(menu);
+//        stage.show();
         stage.setScene(scene);
         stage.show();
 
@@ -105,11 +112,23 @@ public class GameApplication extends Application {
         if (Config.interact(ball.getBounds(),paddle.getBounds())) {
             ball.setInteract();
         }
+        if (Wall.check_wall(ball.getBounds())==1){
+            ball.setInteract();
+        }
+        if (Wall.check_wall(ball.getBounds())==2){
+            ball.setInteractX();
+        }
+        if (Wall.check_wall(ball.getBounds())==3){
+            ball.setInteractX();
+        }
+        Config.interact(ball.getBounds(),paddle.getBounds());
+
         for (Bricks.Brick brick : bricks) {
             if (Config.interact(ball.getBounds(),brick.getBounds())){
-                ball.setInteract();
+                ball.setInteractX();
             }
         }
+
     }
 
     private void render() {
