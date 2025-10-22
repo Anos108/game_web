@@ -100,17 +100,17 @@ public class GameView  {
 
     private void update() {
         ball.update();
-        paddle.update(Config.leftPressed, Config.rightPressed,paddle.getBounds());
-        if (Config.interact(ball.getBounds(),paddle.getBounds())) {
+        paddle.update(Config.leftPressed, Config.rightPressed, paddle.getBounds());
+        if (Config.interact(ball.getBounds(), paddle.getBounds())) {
             Physic.ballPaddle(ball, paddle);
         }
-        if (Wall.check_wall(ball.getBounds())==1){
+        if (Wall.check_wall(ball.getBounds()) == 1) {
             ball.setInteract();
         }
-        if (Wall.check_wall(ball.getBounds())==2){
+        if (Wall.check_wall(ball.getBounds()) == 2) {
             ball.setInteractX();
         }
-        if (Wall.check_wall(ball.getBounds())==3){
+        if (Wall.check_wall(ball.getBounds()) == 3) {
             ball.setInteractX();
         }
 
@@ -131,7 +131,6 @@ public class GameView  {
 
 // 2) Purge sau vòng lặp
         bricks.removeIf(Bricks.Brick::isDestroyed);
-
 
 
     }
