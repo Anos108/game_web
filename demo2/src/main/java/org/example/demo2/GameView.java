@@ -99,23 +99,41 @@ public class GameView  {
     }
 
     private void update() {
-        // Cập nhật vị trí
         ball.update();
-        paddle.update(Config.leftPressed, Config.rightPressed);
+        paddle.update(Config.leftPressed, Config.rightPressed,paddle.getBounds());
+        if (Config.interact(ball.getBounds(),paddle.getBounds())) {
+            Physic.ballPaddle(ball, paddle);
+        }
+        if (Wall.check_wall(ball.getBounds())==1){
+            ball.setInteract();
+        }
+        if (Wall.check_wall(ball.getBounds())==2){
+            ball.setInteractX();
+        }
+        if (Wall.check_wall(ball.getBounds())==3){
+            ball.setInteractX();
+        }
 
-        // Kiểm tra va chạm với tường
-        ball.CheckWallCollision();
 
-        // Kiểm tra va chạm với paddle
-        ball.checkPaddleCollision(paddle);
-
-        // Kiểm tra va chạm với bricks và xóa brick nếu bị va chạm
-//        for (int i = bricks.size() - 1; i >= 0; i--) {
-//            Bricks.Brick brick = bricks.get(i);
-//            if (ball.checkBrickCollision(brick)) {
-//                bricks.remove(i); // Xóa brick khi bị đập
+//        for (Bricks.Brick brick : bricks) {
+//            if (Config.interact(ball.getBounds(),brick.getBounds())){
+//                Physic.ballBrickCollision(ball,brick);
+//                bricks.remove(brick);
 //            }
 //        }
+        for (Bricks.Brick brick : bricks) {
+            if (Config.interact(ball.getBounds(), brick.getBounds())) {
+                Physic.ballBrickCollision(ball, brick); // không dùng dx/dy
+                brick.setDestroyed(true);
+                break;
+            }
+        }
+
+// 2) Purge sau vòng lặp
+        bricks.removeIf(Bricks.Brick::isDestroyed);
+
+
+
     }
 
     private void render() {
