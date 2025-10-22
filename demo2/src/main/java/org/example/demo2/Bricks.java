@@ -14,6 +14,7 @@ public class Bricks {
         private final double width, height;
         private static String urlImg;
         private final Image img;
+        private boolean destroyed=false;
 
 
 
@@ -29,12 +30,20 @@ public class Bricks {
                                     Brick.class.getResourceAsStream(Config.IMAGE_PATH + urlImg)));
         }
 
+        public void setDestroyed(boolean destroyed) {
+            this.destroyed = destroyed;
+        }
+
         void render(GraphicsContext gc) {
             gc.drawImage(img, this.x, this.y, Config.brickWidth, Config.brickHeight);
         }
 
         public Rectangle2D getBounds(){
-            return new Rectangle2D(x, y, Config.brickHeight, Config.brickHeight);
+            return new Rectangle2D(x, y, Config.brickWidth, Config.brickHeight);
+        }
+
+        public boolean isDestroyed() {
+            return destroyed;
         }
     }
 

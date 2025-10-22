@@ -12,6 +12,7 @@ public class Ball {
     private double SPEED=5;
     private double interactX=1;
     private double interactY=1;
+    private double angleOffset = 0;
     Ball(double x, double y){
         this.x=x;
         this.y=y;
@@ -28,9 +29,9 @@ public class Ball {
         return new Rectangle2D(x, y, 25, 25);
     }
     void update(){
-        this.x=this.x+Config.gravityX*this.SPEED*interactX;
+        this.x=this.x+(Config.gravityX+this.angleOffset)*this.SPEED*interactX;
         this.y=this.y+Config.gravityY*this.SPEED*interactY;
-        SPEED+=0.003;
+
     }
     public void  setInteract(){
         this.interactX=-this.interactX;
@@ -43,6 +44,36 @@ public class Ball {
 
     public void setInteractY() {
         this.interactY = -this.interactY;
+    }
+
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public double getAngleOffset() {
+        return angleOffset;
+    }
+
+    public void setAngleOffset(double angleOffset) {
+        this.angleOffset = angleOffset;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+
+    public double getSize() {
+        return 50;
     }
 
     public void setBall(double x, double y) {

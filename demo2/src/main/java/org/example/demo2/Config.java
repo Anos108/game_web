@@ -16,6 +16,9 @@ public class Config {
 
     public static final double paddleX = 0;
     public static final double paddleY = 700;
+    public static final double paddleWidth = 906/7;
+    public static final double paddleHeight = 484/7;
+
 
     public static final double brickX = 150;
     public static final double brickY = 100;
@@ -28,18 +31,7 @@ public class Config {
     public static boolean interact(Rectangle2D a, Rectangle2D b) {
         return a.intersects(b);
     }
-    public static Rectangle2D intersect(Rectangle2D r1, Rectangle2D r2) {
-        double x = Math.max(r1.getMinX(), r2.getMinX());
-        double y = Math.max(r1.getMinY(), r2.getMinY());
-        double w = Math.min(r1.getMaxX(), r2.getMaxX()) - x;
-        double h = Math.min(r1.getMaxY(), r2.getMaxY()) - y;
 
-        if (w <= 0 || h <= 0) {
-            return new Rectangle2D(0, 0, 0, 0);  // Không giao nhau
-        }
-
-        return new Rectangle2D(x, y, w, h);
-    }
 
 
 

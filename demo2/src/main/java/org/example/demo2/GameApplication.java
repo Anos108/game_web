@@ -108,9 +108,9 @@ public class GameApplication extends Application {
 
     private void update() {
         ball.update();
-        paddle.update(Config.leftPressed, Config.rightPressed);
+        paddle.update(Config.leftPressed, Config.rightPressed,paddle.getBounds());
         if (Config.interact(ball.getBounds(),paddle.getBounds())) {
-            ball.setInteract();
+            Physic.ballPaddle(ball, paddle);
         }
         if (Wall.check_wall(ball.getBounds())==1){
             ball.setInteract();
@@ -121,13 +121,26 @@ public class GameApplication extends Application {
         if (Wall.check_wall(ball.getBounds())==3){
             ball.setInteractX();
         }
-        Config.interact(ball.getBounds(),paddle.getBounds());
 
+
+//        for (Bricks.Brick brick : bricks) {
+//            if (Config.interact(ball.getBounds(),brick.getBounds())){
+//                Physic.ballBrickCollision(ball,brick);
+//                bricks.remove(brick);
+//            }
+//        }
         for (Bricks.Brick brick : bricks) {
-            if (Config.interact(ball.getBounds(),brick.getBounds())){
-                ball.setInteractX();
+            if (Config.interact(ball.getBounds(), brick.getBounds())) {
+                Physic.ballBrickCollision(ball, brick); // không dùng dx/dy
+                brick.setDestroyed(true);
+                break;
             }
         }
+
+// 2) Purge sau vòng lặp
+        bricks.removeIf(Bricks.Brick::isDestroyed);
+
+
 
     }
 
@@ -140,4 +153,5 @@ public class GameApplication extends Application {
             brick.render(gc);
         }
     }
+
 }
