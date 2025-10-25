@@ -1,6 +1,9 @@
 package org.example.demo2;
 
 import javafx.animation.AnimationTimer;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -9,139 +12,143 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Objects;
 
-public class GameView  {
-    private static final int HEIGHT = 800;
-    private static final int WIDTH = 800;
-    private GraphicsContext gc;
-    private Ball ball;
-    private Paddle paddle;
-    private List<Bricks.Brick> bricks;
-    static Image background;
+public class GameView extends Application {
+  private static final int HEIGHT = 800;
+  private static final int WIDTH = 800;
+  private GraphicsContext gc;
+  private Ball ball;
+  private Paddle paddle;
+  private List<Bricks.Brick> bricks;
+  static Image background;
+  private String difficulty;
 
+  @Override
+  public void start(Stage stage) throws IOException {
+    stage.setTitle("Arkanoid");
 
-    public void startGame(Stage stage) {
-        Canvas canvas = new Canvas(WIDTH, HEIGHT);
-        gc = canvas.getGraphicsContext2D();
+    // Load MainMenu FXML
+    Parent root = FXMLLoader.load(getClass().getResource("/org/example/demo2/MainMenu.fxml"));
+    Scene menuScene = new Scene(root, WIDTH, HEIGHT);
+    stage.setScene(menuScene);
+    stage.show();
+  }
 
-        StackPane root = new StackPane(canvas);
-        Scene scene = new Scene(root, WIDTH, HEIGHT);
+  public void startGame(Stage stage) {
+    Canvas canvas = new Canvas(WIDTH, HEIGHT);
+    gc = canvas.getGraphicsContext2D();
 
-        stage.setTitle("Arkanoid");
-        stage.setScene(scene);
-        stage.show();
+    StackPane root = new StackPane(canvas);
+    Scene scene = new Scene(root, WIDTH, HEIGHT);
 
-        // khoi tao
-        ball = new Ball(Config.ballX, Config.ballY);
-        paddle = new Paddle(Config.paddleX, Config.paddleY);
-        background =
-                new Image(
-                        Objects.requireNonNull(getClass().getResourceAsStream("/asset/images/background.png")));
+    stage.setScene(scene);
 
-        // Khởi tạo danh sách gạch và tạo màn chơi
-        bricks = new ArrayList<>();
-        createLevel();
+    ball = new Ball(Config.ballX, Config.ballY);
+    paddle = new Paddle(Config.paddleX, Config.paddleY);
+    background =
+        new Image(
+            Objects.requireNonNull(getClass().getResourceAsStream("/asset/images/background.png")));
 
-        // key sensor
-        scene.setOnKeyPressed(
-                e -> {
-                    if (e.getCode() == KeyCode.A) Config.leftPressed = true;
-                    if (e.getCode() == KeyCode.D) Config.rightPressed = true;
-                });
-        scene.setOnKeyReleased(
-                e -> {
-                    if (e.getCode() == KeyCode.A) Config.leftPressed = false;
-                    if (e.getCode() == KeyCode.D) Config.rightPressed = false;
-                });
+    // Khởi tạo danh sách gạch và tạo màn chơi
+    bricks = new ArrayList<>();
+    createLevel();
 
-        AnimationTimer gameLoop =
-                new AnimationTimer() {
-                    @Override
-                    public void handle(long now) {
-                        update();
-                        render();
-                    }
-                };
-        gameLoop.start();
+    // key sensor
+    scene.setOnKeyPressed(
+        e -> {
+          if (e.getCode() == KeyCode.A) Config.leftPressed = true;
+          if (e.getCode() == KeyCode.D) Config.rightPressed = true;
+        });
+    scene.setOnKeyReleased(
+        e -> {
+          if (e.getCode() == KeyCode.A) Config.leftPressed = false;
+          if (e.getCode() == KeyCode.D) Config.rightPressed = false;
+        });
+
+    AnimationTimer gameLoop =
+        new AnimationTimer() {
+          @Override
+          public void handle(long now) {
+            update();
+            render();
+          }
+        };
+    gameLoop.start();
+  }
+
+  private void createLevel() {
+    Random random = new Random();
+    int rows = 4;
+    int cols = 8;
+    double brickWidth = Config.brickWidth;
+    double brickHeight = Config.brickHeight;
+    double startX = 65;
+    double startY = 50;
+    double padding = 15;
+
+    for (int r = 0; r < rows; r++) {
+      for (int c = 0; c < cols; c++) {
+        double x = startX + c * (brickWidth + padding);
+        double y = startY + r * (brickHeight + padding);
+
+        Bricks.Brick newBrick;
+        int colorRandom = random.nextInt(4);
+        newBrick =
+            switch (colorRandom) {
+              case 0 -> new Bricks.BrickRed(x, y, brickWidth, brickHeight);
+              case 1 -> new Bricks.BrickOrange(x, y, brickWidth, brickHeight);
+              case 2 -> new Bricks.BrickGreen(x, y, brickWidth, brickHeight);
+              default -> new Bricks.BrickPurple(x, y, brickWidth, brickHeight);
+            };
+        bricks.add(newBrick);
+      }
+    }
+  }
+
+  private void update() {
+    ball.update();
+    paddle.update(Config.leftPressed, Config.rightPressed, paddle.getBounds());
+    if (Config.interact(ball.getBounds(), paddle.getBounds())) {
+      Physic.ballPaddle(ball, paddle);
+    }
+    if (Wall.check_wall(ball.getBounds()) == 1) {
+      ball.setInteract();
+    }
+    if (Wall.check_wall(ball.getBounds()) == 2) {
+      ball.setInteractX();
+    }
+    if (Wall.check_wall(ball.getBounds()) == 3) {
+      ball.setInteractX();
     }
 
-    private void createLevel() {
-        Random random = new Random();
-        int rows = 4;
-        int cols = 8;
-        double brickWidth = Config.brickWidth;
-        double brickHeight = Config.brickHeight;
-        double startX = 65; // Căn chỉnh vị trí bắt đầu của khối gạch (với kích thước 93px)
-        double startY = 50; // Dịch lên một chút cho đủ chỗ
-        double padding = 15; // Khoảng cách giữa các viên gạch (phù hợp với sprite sheet mới)
-
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < cols; c++) {
-                double x = startX + c * (brickWidth + padding);
-                double y = startY + r * (brickHeight + padding);
-
-                Bricks.Brick newBrick;
-                int colorRandom = random.nextInt(4); // Có 8 loại gạch màu trong sprite sheet
-                newBrick =
-                        switch (colorRandom) {
-                            case 0 -> new Bricks.BrickRed(x, y, brickWidth, brickHeight);
-                            case 1 -> new Bricks.BrickOrange(x, y, brickWidth, brickHeight);
-                            case 2 -> new Bricks.BrickGreen(x, y, brickWidth, brickHeight);
-                            default -> new Bricks.BrickPurple(x, y, brickWidth, brickHeight);
-                        };
-                bricks.add(newBrick);
-            }
-        }
+    for (Bricks.Brick brick : bricks) {
+      if (Config.interact(ball.getBounds(), brick.getBounds())) {
+        Physic.ballBrickCollision(ball, brick); // không dùng dx/dy
+        brick.setDestroyed(true);
+        break;
+      }
     }
 
-    private void update() {
-        ball.update();
-        paddle.update(Config.leftPressed, Config.rightPressed, paddle.getBounds());
-        if (Config.interact(ball.getBounds(), paddle.getBounds())) {
-            Physic.ballPaddle(ball, paddle);
-        }
-        if (Wall.check_wall(ball.getBounds()) == 1) {
-            ball.setInteract();
-        }
-        if (Wall.check_wall(ball.getBounds()) == 2) {
-            ball.setInteractX();
-        }
-        if (Wall.check_wall(ball.getBounds()) == 3) {
-            ball.setInteractX();
-        }
+    // 2) Purge sau vòng lặp
+    bricks.removeIf(Bricks.Brick::isDestroyed);
+  }
 
-
-//        for (Bricks.Brick brick : bricks) {
-//            if (Config.interact(ball.getBounds(),brick.getBounds())){
-//                Physic.ballBrickCollision(ball,brick);
-//                bricks.remove(brick);
-//            }
-//        }
-        for (Bricks.Brick brick : bricks) {
-            if (Config.interact(ball.getBounds(), brick.getBounds())) {
-                Physic.ballBrickCollision(ball, brick); // không dùng dx/dy
-                brick.setDestroyed(true);
-                break;
-            }
-        }
-
-// 2) Purge sau vòng lặp
-        bricks.removeIf(Bricks.Brick::isDestroyed);
-
-
+  private void render() {
+    gc.clearRect(0, 0, WIDTH, HEIGHT);
+    gc.drawImage(background, 0, 0, WIDTH, HEIGHT);
+    ball.render(gc);
+    paddle.render(gc);
+    for (Bricks.Brick brick : bricks) {
+      brick.render(gc);
     }
+  }
 
-    private void render() {
-        gc.clearRect(0, 0, WIDTH, HEIGHT);
-        gc.drawImage(background, 0, 0, WIDTH, HEIGHT);
-        ball.render(gc);
-        paddle.render(gc);
-        for (Bricks.Brick brick : bricks) {
-            brick.render(gc);
-        }
-    }
+  public void setDifficulty(String difficulty) {
+    this.difficulty = difficulty;
+  }
 }

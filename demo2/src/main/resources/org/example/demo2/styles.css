@@ -1,0 +1,82 @@
+.menu-button {
+    -fx-background-color: transparent;
+}
+
+.menu-button:hover {
+    -fx-effect: dropshadow(gaussian, gold, 25, 0.7, 0, 0);
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-cursor: hand;
+}
+
+.play-button {
+    -fx-background-image: url('../../../asset/images/play.png');
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.play-button:hover {
+    -fx-effect: dropshadow(gaussian, gold, 25, 0.7, 0, 0);
+}
+
+.settings-button {
+    -fx-background-image: url('../../../asset/images/setting.png');
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.settings-button:hover {
+    -fx-effect: dropshadow(gaussian, deepskyblue, 25, 0.7, 0, 0);
+}
+
+.exit-button {
+    -fx-background-image: url('../../../asset/images/exit.png');
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.exit-button:hover {
+    -fx-effect: dropshadow(gaussian, red, 25, 0.7, 0, 0);
+}
+
+.difficulty-button {
+    -fx-background-color: transparent;
+}
+
+.difficulty-button:hover {
+    -fx-effect: dropshadow(gaussian, gold, 30, 0.8, 0, 0);
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-cursor: hand;
+}
+
+.easy-button {
+    -fx-background-image: url('../../../asset/images/easy.png');
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.easy-button:hover {
+    -fx-effect: dropshadow(gaussian, lightgreen, 30, 0.8, 0, 0);
+}
+
+.medium-button {
+    -fx-background-image: url('../../../asset/images/medium.png');
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.medium-button:hover {
+    -fx-effect: dropshadow(gaussian, gold, 30, 0.8, 0, 0);
+}
+
+.hard-button {
+    -fx-background-image: url('../../../asset/images/hard.png');
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.hard-button:hover {
+    -fx-effect: dropshadow(gaussian, orangered, 30, 0.8, 0, 0);
+}
+
