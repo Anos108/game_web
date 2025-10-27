@@ -16,35 +16,53 @@ public class Physic {
 
         return new Rectangle2D(x, y, w, h);
     }
+
     public static void ballPaddle(Ball ball, Paddle paddle) {
         Rectangle2D b = ball.getBounds();
         Rectangle2D p = paddle.getBounds();
 
-        // 1) Chỉ xử lý khi có va chạm thật
+
         if (!b.intersects(p)) return;
 
-        // 2) Tính tâm theo bounds thực (không hardcode kích thước)
-        double ballC = b.getMinX() + b.getWidth()  / 2.0;
-        double padC  = p.getMinX() + p.getWidth()  / 2.0;
 
-        // 3) Lệch chuẩn hóa [-1..1] (trái = -1, giữa = 0, phải = 1)
+        double ballC = b.getMinX() + b.getWidth() / 2.0;
+        double padC = p.getMinX() + p.getWidth() / 2.0;
+
+
         double offset = (ballC - padC) / (p.getWidth() / 2.0);
         if (offset < -1) offset = -1;
         else if (offset > 1) offset = 1;
 
-        // 4) Đặt góc lệch cho Ball (nếu có ANGLE_FACTOR thì nhân; nếu không, giữ nguyên)
-        double angle = offset*0.6;
+
+        double angle = offset * 0.6;
 
         ball.setAngleOffset(angle);
 
-        // 5) Ép bóng bật lên (hệ toạ độ JavaFX: y tăng là đi xuống)
+
         ball.setInteractY();
 
-        // 6) Tách bóng ra khỏi paddle để tránh kẹt
-        ball.setY(p.getMinY() - b.getHeight() - 0.1);
+
+        double overlapTop = b.getMaxY() - p.getMinY();
+        double overlapLeft = b.getMaxX() - p.getMinX();
+        double overlapRight = p.getMaxX() - b.getMinX();
+
+        final double SAFE_MARGIN = 2.0;
 
 
+        double overlapHoriz = Math.min(overlapLeft, overlapRight);
+
+
+        if (overlapHoriz < 5.0) {
+            if (overlapLeft < overlapRight) {
+                ball.setX(ball.getX() - (overlapLeft + SAFE_MARGIN));
+            } else {
+                ball.setX(ball.getX() + (overlapRight + SAFE_MARGIN));
+            }
+        }
+
+        ball.setY(p.getMinY() - b.getHeight() - SAFE_MARGIN);
     }
+
     public static void ballBrickCollision(Ball ball, Bricks.Brick brick) {
 
 
@@ -53,13 +71,13 @@ public class Physic {
         if (!b.intersects(r)) return;
 
         // Độ chồng lấn bốn phía
-        double overlapLeft   = b.getMaxX() - r.getMinX();
-        double overlapRight  = r.getMaxX() - b.getMinX();
-        double overlapTop    = b.getMaxY() - r.getMinY();
+        double overlapLeft = b.getMaxX() - r.getMinX();
+        double overlapRight = r.getMaxX() - b.getMinX();
+        double overlapTop = b.getMaxY() - r.getMinY();
         double overlapBottom = r.getMaxY() - b.getMinY();
 
         double minXOverlap = Math.min(overlapLeft, overlapRight);
-        double minYOverlap = Math.min(overlapTop,  overlapBottom);
+        double minYOverlap = Math.min(overlapTop, overlapBottom);
 
         final double EPS = 0.1; // đẩy nhẹ ra ngoài để không kẹt
 
@@ -87,7 +105,6 @@ public class Physic {
 
 
     }
-
 
 
 }

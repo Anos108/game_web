@@ -1,77 +1,127 @@
 package org.example.demo2;
 
-import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
+import javafx.geometry.Rectangle2D;
 import java.util.Objects;
+
+import static java.lang.Math.clamp;
 
 public class Bricks {
 
-  public abstract static class Brick {
-    private final double x, y;
-    private final double width, height;
-    private final Image img;
+    public abstract static class Brick {
+        private final double x, y;
+        private final double width, height;
+        private static String urlImg;
 
-    Brick(double x, double y, double width, double height, String urlImg) {
-      this.x = x;
-      this.y = y;
-      this.width = width;
-      this.height = height;
-      img =
-          new Image(
-              Objects.requireNonNull(Brick.class.getResourceAsStream(Config.IMAGE_PATH + urlImg)));
+
+        private final Image img;
+        private boolean destroyed=false;
+        private int health;
+        private final int maxHealth;
+        private double alpha =1.0;
+        private double glowTime = 0; // thời gian còn lại của hiệu ứng glow
+        private final DropShadow glow = new DropShadow();
+
+
+
+        Brick(double x, double y, double width, double height, String urlImg,int maxHealth) {
+            this.urlImg = urlImg;
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            this.maxHealth = maxHealth;
+            img =
+                    new Image(
+                            Objects.requireNonNull(
+                                    Brick.class.getResourceAsStream(Config.IMAGE_PATH + urlImg)));
+        }
+
+        public void setHealth(int health) {
+            this.health = health;
+        }
+        public void healthDown() {
+            health--;
+        }
+
+        public void setDestroyed(boolean destroyed) {
+            if(health==0){
+                this.destroyed = destroyed;
+            }
+            alpha = clamp((double) health / (double) maxHealth, 0.0, 1.0);
+            glowTime = 0.3; // sáng trong 0.3 giây
+            glow.setColor(Color.web("#FFEA00")); // màu vàng sáng
+            glow.setRadius(20);
+        }
+
+        void render(GraphicsContext gc) {
+            gc.save();
+            gc.setGlobalAlpha(alpha);
+            gc.drawImage(img, this.x, this.y, Config.brickWidth, Config.brickHeight);
+            gc.restore();
+            gc.save();
+            if (glowTime > 0) gc.setEffect(glow);
+            gc.setGlobalAlpha(alpha);
+            gc.drawImage(img, x, y, Config.brickWidth, Config.brickHeight);
+            gc.restore();
+        }
+        void Update() {
+            double dt = 0.016;
+            if (glowTime > 0) {
+                glowTime -= dt;
+                double intensity = Math.max(0, glowTime / 0.3);
+                glow.setRadius(20 * intensity);  // giảm dần bán kính sáng
+                glow.setColor(Color.color(1.0, 0.9, 0.3, intensity)); // giảm dần độ sáng
+            }
+        }
+
+        public Rectangle2D getBounds(){
+            return new Rectangle2D(x, y, Config.brickWidth, Config.brickHeight);
+        }
+
+        public boolean isDestroyed() {
+            return destroyed;
+        }
     }
 
-    void render(GraphicsContext gc) {
-      gc.drawImage(img, this.x, this.y, Config.brickWidth, Config.brickHeight);
+    public static class BrickOrange extends Brick {
+
+
+        BrickOrange(double x, double y, double width, double height) {
+            super(x, y, width, height,"brickOrange.png",1);
+            setHealth(1);
+        }
+
+
     }
 
-    // Getters
-    public double getX() {
-      return x;
+    public static class BrickRed extends Brick {
+        BrickRed(double x, double y, double width, double height) {
+
+            super(x, y, width, height,"brickRed.png",2);
+            setHealth(2);
+        }
     }
 
-    public double getY() {
-      return y;
+    public static class BrickGreen extends Brick {
+        BrickGreen(double x, double y, double width, double height) {
+            super(x, y, width, height,"brickGreen.png",3);
+            setHealth(4);
+        }
     }
 
-    public double getHeight() {
-      return height;
+    public static class BrickPurple extends Brick {
+        BrickPurple(double x, double y, double width, double height) {
+            super(x, y, width, height,"brickPurple.png",6);
+            setHealth(6);
+        }
     }
 
-    public double getWidth() {
-      return width;
-    }
 
-    // Trả về bounds (hình chữ nhật bao quanh) của brick
-    public Rectangle2D getBounds() {
-      return new Rectangle2D(x, y, width, height);
-    }
-  }
 
-  public static class BrickOrange extends Brick {
-    BrickOrange(double x, double y, double width, double height) {
-      super(x, y, width, height, "brickOrange.png");
-    }
-  }
 
-  public static class BrickRed extends Brick {
-    BrickRed(double x, double y, double width, double height) {
-
-      super(x, y, width, height, "brickRed.png");
-    }
-  }
-
-  public static class BrickGreen extends Brick {
-    BrickGreen(double x, double y, double width, double height) {
-      super(x, y, width, height, "brickGreen.png");
-    }
-  }
-
-  public static class BrickPurple extends Brick {
-    BrickPurple(double x, double y, double width, double height) {
-      super(x, y, width, height, "brickPurple.png");
-    }
-  }
 }

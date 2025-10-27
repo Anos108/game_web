@@ -9,7 +9,8 @@ import java.util.Objects;
 public class Ball {
     private double x,y;
     static Image img;
-    private double SPEED=5;
+    private double SPEED;
+    private double speedUp;
     private double interactX=1;
     private double interactY=1;
     private double angleOffset = 0;
@@ -22,6 +23,13 @@ public class Ball {
         ));
     }
 
+    public void setSpeedUp(double speedUp) {
+        this.speedUp = speedUp;
+    }
+    public void setSpeed(double speed){
+        this.SPEED=speed;
+    }
+
     void render(GraphicsContext gc){
         gc.drawImage(img, x, y, 50, 50);
     }
@@ -29,6 +37,7 @@ public class Ball {
         return new Rectangle2D(x, y, 25, 25);
     }
     void update(){
+        this.SPEED+=speedUp;
         this.x=this.x+(Config.gravityX+this.angleOffset)*this.SPEED*interactX;
         this.y=this.y+Config.gravityY*this.SPEED*interactY;
 
@@ -80,7 +89,5 @@ public class Ball {
         this.x=x;
         this.y=y;
     }
-    public void setSpeed(double speed){
-        this.SPEED=speed;
-    }
+
 }
