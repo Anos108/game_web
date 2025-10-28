@@ -13,11 +13,11 @@
             </image>
         </ImageView>
         
-        <Button fx:id="easyButton" layoutX="312.0" layoutY="187.0" mnemonicParsing="false" onAction="#handleEasy" prefHeight="174.0" prefWidth="200.0" styleClass="difficulty-button, easy-button" text="" />
+        <Button fx:id="easyButton" layoutX="312.0" layoutY="199.0" mnemonicParsing="false" onAction="#handleEasy" prefHeight="174.0" prefWidth="200.0" styleClass="difficulty-button, easy-button" text="" />
         
-        <Button fx:id="mediumButton" layoutX="326.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleMedium" prefHeight="143.0" prefWidth="171.0" styleClass="difficulty-button, medium-button" text="" />
+        <Button fx:id="mediumButton" layoutX="312.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleMedium" prefHeight="174.0" prefWidth="200.0" styleClass="difficulty-button, medium-button" text="" />
         
-        <Button fx:id="hardButton" layoutX="336.0" layoutY="504.0" mnemonicParsing="false" onAction="#handleHard" prefHeight="150.0" prefWidth="150.0" styleClass="difficulty-button, hard-button" text="" />
+        <Button fx:id="hardButton" layoutX="312.0" layoutY="535.0" mnemonicParsing="false" onAction="#handleHard" prefHeight="174.0" prefWidth="200.0" styleClass="difficulty-button, hard-button" text="" />
 
     </children>
 </AnchorPane>
