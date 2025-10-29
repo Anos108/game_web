@@ -2,6 +2,7 @@ package org.example.demo2;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -143,6 +144,9 @@ public class GameView extends Application {
         }
         if (Wall.check_wall(ball.getBounds()) == 3) {
             ball.setInteractX();
+        }
+        if (Wall.check_wall(ball.getBounds()) == 4){
+            Platform.exit();
         }
 
         for (Bricks.Brick brick : bricks) {
