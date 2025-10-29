@@ -18,18 +18,28 @@ public class DifficultyController {
 
   @FXML
   void handleEasy(ActionEvent event) {
+      if (MainMenuController.mediaPlayer != null) {
+          MainMenuController.mediaPlayer.stop();
+      }
+
     System.out.println("Easy Mode");
     startGameWithDifficulty(event, "easy");
   }
 
   @FXML
   void handleMedium(ActionEvent event) {
+      if (MainMenuController.mediaPlayer != null) {
+          MainMenuController.mediaPlayer.stop();
+      }
     System.out.println("Medium Mode");
     startGameWithDifficulty(event, "medium");
   }
 
   @FXML
   void handleHard(ActionEvent event) {
+      if (MainMenuController.mediaPlayer != null) {
+          MainMenuController.mediaPlayer.stop();
+      }
     System.out.println("Hard Mode");
     startGameWithDifficulty(event, "hard");
   }

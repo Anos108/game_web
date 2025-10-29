@@ -18,9 +18,14 @@ public class MainMenuController {
   @FXML private Button startButton;
   @FXML private Button exitButton;
   @FXML private Button settingsButton;
-  private MediaPlayer mediaPlayer;
+  public static MediaPlayer mediaPlayer;
 
-  @FXML
+    public MediaPlayer getMediaPlayer() {
+        return mediaPlayer;
+    }
+
+
+    @FXML
   void initialize() {
     System.out.println("Menu Controller đã được khởi tạo!");
       try {
@@ -47,7 +52,7 @@ public class MainMenuController {
     System.out.println("Nút Start đã được bấm! Đang khởi tạo GameView...");
 
     try {
-      Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
       Parent root = FXMLLoader.load(getClass().getResource("/org/example/demo2/Difficulty.fxml"));
       Scene difficultyScene = new Scene(root, 800, 800);
       stage.setScene(difficultyScene);
