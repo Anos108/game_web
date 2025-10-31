@@ -11,9 +11,12 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -149,6 +152,10 @@ public class GameView extends Application {
 
             // Paddle collision
             if (Config.interact(ball.getBounds(), paddle.getBounds())) {
+                URL music = getClass().getResource(Config.SOUND_PATH + "brick_hit.mp3");
+                Media sound = new Media(music.toExternalForm());
+                MediaPlayer mediaPlayer = new MediaPlayer(sound);
+                mediaPlayer.play();
                 Physic.ballPaddle(ball, paddle);
             }
 
@@ -167,6 +174,10 @@ public class GameView extends Application {
             for (Bricks.Brick brick : bricks) {
                 brick.Update();
                 if (Config.interact(ball.getBounds(), brick.getBounds())) {
+                    URL music = getClass().getResource(Config.SOUND_PATH + "brick_hit.mp3");
+                    Media sound = new Media(music.toExternalForm());
+                    MediaPlayer mediaPlayer = new MediaPlayer(sound);
+                    mediaPlayer.play();
                     Physic.ballBrickCollision(ball, brick);
                     brick.healthDown();
                     brick.setDestroyed(true);
