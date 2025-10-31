@@ -2,12 +2,6 @@
     -fx-background-color: transparent;
 }
 
-.menu-button:hover {
-    -fx-effect: dropshadow(gaussian, gold, 25, 0.7, 0, 0);
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
-    -fx-cursor: hand;
-}
 
 .play-button {
     -fx-background-image: url('../../../asset/images/play.png');
