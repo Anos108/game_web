@@ -23,11 +23,15 @@ public class GameView extends Application {
     private static final int HEIGHT = 800;
     private static final int WIDTH = 800;
     private GraphicsContext gc;
-    private Ball ball;
+    //    private Ball ball;
+    private List<Ball> balls;
     private Paddle paddle;
     private List<Bricks.Brick> bricks;
+    private List<PowerUp> powerUps;
     static Image background;
     private String difficulty;
+    private int ball_add=0;
+
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -53,7 +57,9 @@ public class GameView extends Application {
 
         stage.setScene(scene);
 
-        ball = new Ball(Config.ballX, Config.ballY);
+//        ball = new Ball(Config.ballX, Config.ballY);
+        balls = new ArrayList<>();
+        powerUps = new ArrayList<>();
         paddle = new Paddle(Config.paddleX, Config.paddleY);
         background =
                 new Image(
@@ -87,21 +93,7 @@ public class GameView extends Application {
     }
 
     private void createLevel() {
-        if(difficulty.equals("easy")) {
-            ball.setSpeed(3.5);
-            ball.setSpeedUp(0.0001);
 
-        }
-        else if(difficulty.equals("medium")) {
-            ball.setSpeed(5);
-            ball.setSpeedUp(0.0005);
-
-        }
-        else if(difficulty.equals("hard")) {
-            ball.setSpeed(6);
-            ball.setSpeedUp(0.001);
-
-        }
         Random random = new Random();
         int rows = 4;
         int cols = 8;
@@ -131,45 +123,113 @@ public class GameView extends Application {
     }
 
     private void update() {
-        ball.update();
-        paddle.update(Config.leftPressed, Config.rightPressed, paddle.getBounds());
-        if (Config.interact(ball.getBounds(), paddle.getBounds())) {
-            Physic.ballPaddle(ball, paddle);
-        }
-        if (Wall.check_wall(ball.getBounds()) == 1) {
-            ball.setInteractY();
-        }
-        if (Wall.check_wall(ball.getBounds()) == 2) {
-            ball.setInteractX();
-        }
-        if (Wall.check_wall(ball.getBounds()) == 3) {
-            ball.setInteractX();
-        }
-        if (Wall.check_wall(ball.getBounds()) == 4){
-            Platform.exit();
-        }
 
-        for (Bricks.Brick brick : bricks) {
-            brick.Update();
-            if (Config.interact(ball.getBounds(), brick.getBounds())) {
-                Physic.ballBrickCollision(ball, brick);
-                brick.healthDown(); //giam health gach
-                brick.setDestroyed(true);
-                break;
+        // 1) update paddle 1 lần/frame
+        paddle.update(Config.leftPressed, Config.rightPressed, paddle.getBounds());
+
+        boolean lostBallThisFrame = false;
+
+        // 2) duyệt balls bằng index (không thêm/xóa ở đây)
+        for (Ball ball : balls) {
+            if (difficulty.equals("easy")) {
+                ball.setSpeed(3.5);
+                ball.setSpeedUp(0.0001);
+
+            } else if (difficulty.equals("medium")) {
+                ball.setSpeed(5);
+                ball.setSpeedUp(0.0005);
+
+            } else if (difficulty.equals("hard")) {
+                ball.setSpeed(6);
+                ball.setSpeedUp(0.001);
+
+            }
+
+            ball.update();
+
+            // Paddle collision
+            if (Config.interact(ball.getBounds(), paddle.getBounds())) {
+                Physic.ballPaddle(ball, paddle);
+            }
+
+            // Wall collision
+            int w = Wall.check_wall(ball.getBounds());
+            if (w == 1) {
+                ball.setInteractY();                 // top
+            } else if (w == 2 || w == 3) {
+                ball.setInteractX();                 // left/right
+            } else if (w == 4) {                     // bottom -> đánh dấu mất bóng
+                lostBallThisFrame = true;
+                ball.setDead(true);                  // cờ để remove ở ngoài
+            }
+
+            // Bricks: (lưu ý chỉ update bricks 1 lần/frame, đoạn dưới tối thiểu sửa va chạm)
+            for (Bricks.Brick brick : bricks) {
+                brick.Update();
+                if (Config.interact(ball.getBounds(), brick.getBounds())) {
+                    Physic.ballBrickCollision(ball, brick);
+                    brick.healthDown();
+                    brick.setDestroyed(true);
+                    if (brick.isDestroyed() && brick.getHasPowerUp()) {
+                        powerUps.add(new PowerUp(brick.getX(), brick.getY()));
+                    }
+                    break;
+                }
+            }
+            for (PowerUp powerUp : powerUps) {
+                if(powerUp.update(paddle.getBounds())==1){
+                    ball_add++;
+                    powerUp.setDead();
+                }
+                else  if(powerUp.update(paddle.getBounds())==2){
+                    for (Ball ball1:balls){
+                        ball1.downSpeed();
+                        powerUp.setDead();
+                    };
+                }
+                else if(powerUp.update(paddle.getBounds())==3) {
+                    GameplayManager.plusLife();
+                    powerUp.setDead();
+                }
             }
         }
 
-        // 2) Purge sau vòng lặp
+        // 3) dọn dẹp ngoài vòng lặp
+        balls.removeIf(Ball::isDead);
         bricks.removeIf(Bricks.Brick::isDestroyed);
+        powerUps.removeIf(PowerUp::isDead);
+
+        // 4) xử lý mất mạng CHỈ 1 LẦN / lần rơi
+        if (lostBallThisFrame && balls.isEmpty()) {
+            GameplayManager.equalLife();      // nhớ clamp không cho âm
+            GameplayManager.setCheckLife(false);  // cho phép respawn bóng
+            // có thể đặt lại bóng về paddle tại đây nếu muốn
+        }
+
+        // 5) spawn bóng mới nếu cần (ngoài vòng for)
+        if (!GameplayManager.isCheckLife()) {
+            balls.add(new Ball(Config.ballX, Config.ballY));
+            GameplayManager.setCheckLife(true);
+        }
+        for (int i=0;i<ball_add;i++){
+            balls.add(new Ball(Config.ballX, Config.ballY));
+        }
+        ball_add=0;
     }
 
     private void render() {
         gc.clearRect(0, 0, WIDTH, HEIGHT);
         gc.drawImage(background, 0, 0, WIDTH, HEIGHT);
-        ball.render(gc);
+        GameplayManager.renderLives(gc);
+        for (Ball ball : balls) {
+            ball.render(gc);
+        }
         paddle.render(gc);
         for (Bricks.Brick brick : bricks) {
             brick.render(gc);
+        }
+        for (PowerUp powerUp : powerUps) {
+            powerUp.renderPowerUp(gc);
         }
     }
 

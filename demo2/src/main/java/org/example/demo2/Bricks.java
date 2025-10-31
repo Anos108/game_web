@@ -25,6 +25,8 @@ public class Bricks {
         private double alpha =1.0;
         private double glowTime = 0; // thời gian còn lại của hiệu ứng glow
         private final DropShadow glow = new DropShadow();
+        private boolean hasPowerUp = false;
+        final double rand = Math.random();
 
 
 
@@ -44,8 +46,24 @@ public class Bricks {
         public void setHealth(int health) {
             this.health = health;
         }
+
+        public void setHasPowerUp() {
+            this.hasPowerUp = true;
+        }
+        public boolean getHasPowerUp() {
+            return this.hasPowerUp;
+        }
+
         public void healthDown() {
             health--;
+        }
+
+        public double getX() {
+            return x;
+        }
+
+        public double getY() {
+            return y;
         }
 
         public void setDestroyed(boolean destroyed) {
@@ -93,6 +111,7 @@ public class Bricks {
 
         BrickOrange(double x, double y, double width, double height) {
             super(x, y, width, height,"brickOrange.png",1);
+            if (super.rand > 0.95) setHasPowerUp();
             setHealth(1);
         }
 
@@ -103,6 +122,7 @@ public class Bricks {
         BrickRed(double x, double y, double width, double height) {
 
             super(x, y, width, height,"brickRed.png",2);
+            if (super.rand > 0.80) setHasPowerUp();
             setHealth(2);
         }
     }
@@ -110,6 +130,7 @@ public class Bricks {
     public static class BrickGreen extends Brick {
         BrickGreen(double x, double y, double width, double height) {
             super(x, y, width, height,"brickGreen.png",3);
+            if (super.rand > 0.60) setHasPowerUp();
             setHealth(4);
         }
     }
@@ -117,6 +138,7 @@ public class Bricks {
     public static class BrickPurple extends Brick {
         BrickPurple(double x, double y, double width, double height) {
             super(x, y, width, height,"brickPurple.png",6);
+            if (super.rand > 0.40) setHasPowerUp();
             setHealth(6);
         }
     }

@@ -14,6 +14,7 @@ public class Ball {
     private double interactX=1;
     private double interactY=1;
     private double angleOffset = 0;
+    private boolean dead;
     Ball(double x, double y){
         this.x=x;
         this.y=y;
@@ -23,11 +24,22 @@ public class Ball {
         ));
     }
 
+    public void setDead(boolean dead) {
+        this.dead = dead;
+    }
+
+    public boolean isDead() {
+        return dead;
+    }
+
     public void setSpeedUp(double speedUp) {
         this.speedUp = speedUp;
     }
     public void setSpeed(double speed){
         this.SPEED=speed;
+    }
+    public void downSpeed(){
+        this.SPEED = Math.max(1.5, this.SPEED * 0.75);
     }
 
     void render(GraphicsContext gc){
