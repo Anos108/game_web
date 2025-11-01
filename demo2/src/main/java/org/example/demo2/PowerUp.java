@@ -15,7 +15,7 @@ public class PowerUp {
     private final double x;
     private double y;
     private boolean dead = false;
-    private final Image image ;
+    private final Image image;
 
     PowerUp( double x, double y) {
         int powerPick = (int)(Math.random() * 3) + 1;
@@ -59,7 +59,6 @@ public class PowerUp {
         return new Rectangle2D(x, y, 50, 50);
     }
     public void renderPowerUp(GraphicsContext gc) {
-
         gc.drawImage(image,x,y,50,50);
     }
 
