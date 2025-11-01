@@ -50,7 +50,7 @@ public class Ball {
     }
     void update(){
         this.SPEED+=speedUp;
-        this.x=this.x+(Config.gravityX+this.angleOffset)*this.SPEED*interactX;
+        this.x=this.x+(Config.gravityX+Math.sin(this.angleOffset))*this.SPEED*interactX; //test
         this.y=this.y+Config.gravityY*this.SPEED*interactY;
 
     }

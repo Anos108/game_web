@@ -56,11 +56,11 @@ public class PowerUp {
         return 0;
     }
     public Rectangle2D getBounds(){
-        return new Rectangle2D(x, y, 25, 25);
+        return new Rectangle2D(x, y, 50, 50);
     }
     public void renderPowerUp(GraphicsContext gc) {
 
-        gc.drawImage(image,x,y,25,25);
+        gc.drawImage(image,x,y,50,50);
     }
 
 }
