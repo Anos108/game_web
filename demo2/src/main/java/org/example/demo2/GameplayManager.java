@@ -4,7 +4,8 @@ import javafx.scene.image.Image;
 import java.util.Objects;
 
 public class GameplayManager {
-    private static int life =3;
+    private static final int INITIAL_LIFE = 3;
+    private static int life = INITIAL_LIFE;
     private static final Image LIFE_IMG = new Image(
             Objects.requireNonNull(
                     GameplayManager.class.getResourceAsStream(Config.IMAGE_PATH + "mang.png")
@@ -36,17 +37,23 @@ public class GameplayManager {
         return life;
     }
     public static void resetLife(){
-        life=0;
+        life = INITIAL_LIFE;
     }
     public static int plusLife(){
         return life++;
     }
-    public static void plusScore(int score) {
-        GameplayManager.score+=score;
+    public static void plusScore() {
+        GameplayManager.score++;
     }
 
     public static void resetScore() {
         GameplayManager.score = 0;
+    }
+
+    public static void resetState() {
+        life = INITIAL_LIFE;
+        score = 0;
+        checkLife = false;
     }
 
     public static void renderLives(GraphicsContext gc) {
@@ -55,5 +62,9 @@ public class GameplayManager {
         for (int i = 0; i < life; i++) {
             gc.drawImage(LIFE_IMG, x + i * (size + gap), y, size, size);
         }
+    }
+
+    public static int getScore() {
+        return score;
     }
 }
