@@ -15,6 +15,7 @@ public class PowerUp {
     private final double x;
     private double y;
     private boolean dead = false;
+    private final Image image ;
 
     PowerUp( double x, double y) {
         int powerPick = (int)(Math.random() * 3) + 1;
@@ -27,6 +28,9 @@ public class PowerUp {
         else powerUpUrl = "slowBoost.png";
         this.x = x;
         this.y = y;
+        image = new javafx.scene.image.Image(
+                Objects.requireNonNull(
+                        getClass().getResourceAsStream(Config.IMAGE_PATH + powerUpUrl)));
     }
 
     public void setDead() {
@@ -55,9 +59,7 @@ public class PowerUp {
         return new Rectangle2D(x, y, 25, 25);
     }
     public void renderPowerUp(GraphicsContext gc) {
-        Image image = new javafx.scene.image.Image(
-                Objects.requireNonNull(
-                        getClass().getResourceAsStream(Config.IMAGE_PATH + powerUpUrl)));
+
         gc.drawImage(image,x,y,25,25);
     }
 
