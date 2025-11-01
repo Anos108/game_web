@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -15,9 +16,7 @@ import java.net.URL;
 
 public class MainMenuController {
 
-  @FXML private Button startButton;
-  @FXML private Button exitButton;
-  @FXML private Button settingsButton;
+
   public static MediaPlayer mediaPlayer;
 
     public MediaPlayer getMediaPlayer() {
@@ -36,7 +35,7 @@ public class MainMenuController {
               Media sound = new Media(musicPath.toExternalForm());
               mediaPlayer = new MediaPlayer(sound);
               mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // lặp vô hạn
-              mediaPlayer.setVolume(0.3); // âm lượng 30%
+              mediaPlayer.setVolume(Config.Volume);
               mediaPlayer.play();
               System.out.println("Nhạc nền menu đang phát...");
           } else {
@@ -72,5 +71,20 @@ public class MainMenuController {
   @FXML
   void handleSettings(ActionEvent event) {
     System.out.println("Nút Settings đã được bấm! ");
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/demo2/Setting.fxml"));
+        Parent root = loader.load();
+        SettingController controller = loader.getController();
+        controller.setMediaPlayer(mediaPlayer);
+
+        Stage dialog = new Stage();
+        dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
+        dialog.initModality(Modality.WINDOW_MODAL);
+        dialog.setTitle("Settings");
+        dialog.setScene(new Scene(root));
+        dialog.show();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
   }
 }
