@@ -16,6 +16,7 @@ public class Bricks {
         private final double x, y;
         private final double width, height;
         private static String urlImg;
+        private int score;
 
 
         private final Image img;
@@ -47,6 +48,14 @@ public class Bricks {
             this.health = health;
         }
 
+        public void setScore(int score) {
+            this.score = score;
+        }
+
+        public int getScore() {
+            return score;
+        }
+
         public void setHasPowerUp() {
             this.hasPowerUp = true;
         }
@@ -66,14 +75,16 @@ public class Bricks {
             return y;
         }
 
-        public void setDestroyed(boolean destroyed) {
+        public int setDestroyed(boolean destroyed) {
             if(health==0){
                 this.destroyed = destroyed;
+                return score;
             }
             alpha = clamp((double) health / (double) maxHealth, 0.0, 1.0);
             glowTime = 0.3; // sáng trong 0.3 giây
             glow.setColor(Color.web("#FFEA00")); // màu vàng sáng
             glow.setRadius(20);
+            return 0;
         }
 
         void render(GraphicsContext gc) {
@@ -111,6 +122,7 @@ public class Bricks {
 
         BrickOrange(double x, double y, double width, double height) {
             super(x, y, width, height,"brickOrange.png",1);
+            super.setScore(100);
             if (super.rand > 0.95) setHasPowerUp();
             setHealth(1);
         }
@@ -122,6 +134,7 @@ public class Bricks {
         BrickRed(double x, double y, double width, double height) {
 
             super(x, y, width, height,"brickRed.png",2);
+            super.setScore(150);
             if (super.rand > 0.80) setHasPowerUp();
             setHealth(2);
         }
@@ -130,6 +143,7 @@ public class Bricks {
     public static class BrickGreen extends Brick {
         BrickGreen(double x, double y, double width, double height) {
             super(x, y, width, height,"brickGreen.png",3);
+            super.setScore(300);
             if (super.rand > 0.60) setHasPowerUp();
             setHealth(4);
         }
@@ -138,6 +152,7 @@ public class Bricks {
     public static class BrickPurple extends Brick {
         BrickPurple(double x, double y, double width, double height) {
             super(x, y, width, height,"brickPurple.png",6);
+            super.setScore(600);
             if (super.rand > 0.40) setHasPowerUp();
             setHealth(6);
         }

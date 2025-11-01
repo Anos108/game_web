@@ -11,34 +11,33 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Objects;
 
-import static org.example.demo2.GameplayManager.plusScore;
-
 public class GameView extends Application {
     private static final int HEIGHT = 800;
     private static final int WIDTH = 800;
     private GraphicsContext gc;
-    //    private Ball ball;
     private List<Ball> balls;
     private Paddle paddle;
     private List<Bricks.Brick> bricks;
     private List<PowerUp> powerUps;
     static Image background;
     private String difficulty;
+  private final Font pixelFont =
+      Font.loadFont(
+          Objects.requireNonNull(getClass().getResourceAsStream("/asset/fonts/font.ttf")), 40);
     private int ball_add=0;
-    private AnimationTimer gameLoop;
-    private Stage primaryStage;
-    private boolean gameOver = false;
+    private int score=0;
+    private boolean gameOver=false;
 
 
     @Override
@@ -57,12 +56,6 @@ public class GameView extends Application {
     }
 
     public void startGame(Stage stage) {
-        primaryStage = stage;
-        GameplayManager.resetState();
-        gameOver = false;
-        ball_add = 0;
-        Config.leftPressed = false;
-        Config.rightPressed = false;
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         gc = canvas.getGraphicsContext2D();
 
@@ -95,7 +88,7 @@ public class GameView extends Application {
                     if (e.getCode() == KeyCode.D) Config.rightPressed = false;
                 });
 
-        gameLoop =
+        AnimationTimer gameLoop =
                 new AnimationTimer() {
                     @Override
                     public void handle(long now) {
@@ -137,9 +130,6 @@ public class GameView extends Application {
     }
 
     private void update() {
-        if (gameOver) {
-            return;
-        }
 
         // 1) update paddle 1 lần/frame
         paddle.update(Config.leftPressed, Config.rightPressed, paddle.getBounds());
@@ -184,17 +174,9 @@ public class GameView extends Application {
             for (Bricks.Brick brick : bricks) {
                 brick.Update();
                 if (Config.interact(ball.getBounds(), brick.getBounds())) {
-                    URL music = getClass().getResource(Config.SOUND_PATH + "brick_hit.mp3");
-                    Media hitSound = new Media(music.toExternalForm());
-                    MediaPlayer mediaPlayer = new MediaPlayer(hitSound);
-                    mediaPlayer.setVolume(Config.Volume);
-                    mediaPlayer.play();
-
-                    plusScore();
-
                     Physic.ballBrickCollision(ball, brick);
                     brick.healthDown();
-                    brick.setDestroyed(true);
+                    score+= brick.setDestroyed(true);
                     if (brick.isDestroyed() && brick.getHasPowerUp()) {
                         powerUps.add(new PowerUp(brick.getX(), brick.getY()));
                     }
@@ -231,13 +213,8 @@ public class GameView extends Application {
             // có thể đặt lại bóng về paddle tại đây nếu muốn
         }
 
-        if (!gameOver && GameplayManager.getLife() <= 0) {
-            handleGameOver();
-            return;
-        }
-
         // 5) spawn bóng mới nếu cần (ngoài vòng for)
-        if (!gameOver && !GameplayManager.isCheckLife()) {
+        if (!GameplayManager.isCheckLife()) {
             balls.add(new Ball(Config.ballX, Config.ballY));
             GameplayManager.setCheckLife(true);
         }
@@ -245,6 +222,11 @@ public class GameView extends Application {
             balls.add(new Ball(Config.ballX, Config.ballY));
         }
         ball_add=0;
+        if (GameplayManager.getLife()==0) { // het game
+            gameOver=true;
+            Config.setScore(score,difficulty);
+            score=0;
+        }
     }
 
     private void render() {
@@ -261,33 +243,14 @@ public class GameView extends Application {
         for (PowerUp powerUp : powerUps) {
             powerUp.renderPowerUp(gc);
         }
-    }
+        gc.setFont(pixelFont); // font + size
+        gc.setFill(Color.ORANGE); // màu chữ
+        gc.fillText(String.valueOf(score), 650, 30);
 
-    private void handleGameOver() {
-        if (gameOver) {
-            return;
-        }
-        gameOver = true;
-        if (gameLoop != null) {
-            gameLoop.stop();
-        }
-        Platform.runLater(this::showGameOver);
-    }
+        gc.setFont(pixelFont); // font + size
+        gc.setFill(Color.ORANGE); // màu chữ
+        gc.fillText(String.valueOf(Config.getScore(difficulty)), 400, 30);
 
-    private void showGameOver() {
-        if (primaryStage == null) {
-            return;
-        }
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/demo2/GameOver.fxml"));
-            Parent root = loader.load();
-            GameOverController controller = loader.getController();
-            controller.setScore(GameplayManager.getScore());
-            Scene scene = new Scene(root, WIDTH, HEIGHT);
-            primaryStage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 }

@@ -10,6 +10,7 @@ public class Paddle {
   private double x, y;
   static Image img;
   private double SPEED = 3.5;
+  private boolean moving = false;
 
   Paddle(double x, double y) {
     this.x = x;
@@ -20,40 +21,44 @@ public class Paddle {
                 getClass().getResourceAsStream(Config.IMAGE_PATH + "paddle.png")));
   }
 
-  void render(GraphicsContext gc) {
-    gc.drawImage(img, x, y, 120, 120);
+    public double getY() {
+        return y;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    void render(GraphicsContext gc) {
+    gc.drawImage(img, x, y,Config.paddleWidth , Config.paddleHeight );
   }
 
-  void update(boolean left, boolean right) {
-    if (left) {
+  void update(boolean left, boolean right,Rectangle2D bounds) {
+    if (left && ((Wall.check_wall(bounds))!=2)) {
       this.x -= this.SPEED;
+      this.moving = true;
     }
-    if (right) {
+    if (right && ((Wall.check_wall(bounds))!=3)) {
       this.x += this.SPEED;
+      this.moving = true;
+    }
+    else  {
+      this.moving = false;
     }
 
-    // Giới hạn paddle trong màn hình
-    if (this.x < 0) {
-      this.x = 0;
-    }
-    if (this.x > Config.WIDTH - 120) { // 120 là chiều rộng paddle
-      this.x = Config.WIDTH - 120;
-    }
+
   }
 
-  public void setPaddle(double x, double y) {
+    public boolean isMoving() {
+        return moving;
+    }
+
+    public void setPaddle(double x, double y) {
     this.x = x;
     this.y = y;
   }
 
-  // Getters
-  public double getX() { return x; }
-  public double getY() { return y; }
-  public double getWidth() { return 120; } // Chiều rộng paddle
-  public double getHeight() { return 20; } // Chiều cao paddle thực tế (không phải 120)
-
-  // Trả về bounds (hình chữ nhật bao quanh) của paddle
-  public Rectangle2D getBounds() {
-    return new Rectangle2D(x, y, 120, 20); // 120 width, 20 height (hitbox thực tế)
-  }
+    public Rectangle2D getBounds(){
+        return new Rectangle2D(x, y, Config.paddleWidth , Config.paddleHeight);
+    }
 }
