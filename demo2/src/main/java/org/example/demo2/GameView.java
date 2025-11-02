@@ -39,7 +39,7 @@ public class GameView extends Application {
           Objects.requireNonNull(getClass().getResourceAsStream("/asset/fonts/font.ttf")), 40);
     private int ball_add=0;
     private int score=0;
-    private boolean gameOver=false;
+    public static boolean gameOver=false;
     AnimationTimer gameLoop;
     private Stage primaryStage;
 
@@ -229,6 +229,7 @@ public class GameView extends Application {
             gameOver=true;
             Config.setScore(score,difficulty);
             score=0;
+            GameplayManager.setCheckLife(false);
         }
         if (gameOver) {
             handleGameOver();

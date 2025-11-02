@@ -36,7 +36,7 @@ public class GameplayManager {
         return life;
     }
     public static void resetLife(){
-        life=0;
+        life=3;
     }
     public static int plusLife(){
         return life++;
