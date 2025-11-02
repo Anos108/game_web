@@ -13,6 +13,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -39,6 +40,7 @@ public class GameView extends Application {
     private List<PowerUp> powerUps;
     static Image background;
     private String difficulty;
+    private long lastHitTime = 0;
   private final Font pixelFont =
       Font.loadFont(
           Objects.requireNonNull(getClass().getResourceAsStream("/asset/fonts/font.ttf")), 40);
@@ -47,6 +49,8 @@ public class GameView extends Application {
     public static boolean gameOver=false;
     AnimationTimer gameLoop;
     private Stage primaryStage;
+    private static final AudioClip Brick_Hit_Sound =
+            new AudioClip(GameView.class.getResource(Config.SOUND_PATH + "brick_hit_2.wav").toExternalForm());
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -164,11 +168,7 @@ public class GameView extends Application {
 
             // Paddle collision
             if (Config.interact(ball.getBounds(), paddle.getBounds())) {
-                URL musicPath = getClass().getResource(Config.SOUND_PATH + "brick_hit.mp3");
-                Media sound = new Media(musicPath.toExternalForm());
-                MediaPlayer mediaPlayer = new MediaPlayer(sound);
-                mediaPlayer.setVolume(Config.Volume);
-                mediaPlayer.play();
+                Brick_Hit_Sound.play(Config.Volume);
                 Physic.ballPaddle(ball, paddle);
             }
 
@@ -187,13 +187,7 @@ public class GameView extends Application {
             for (Bricks.Brick brick : bricks) {
                 brick.Update();
                 if (Config.interact(ball.getBounds(), brick.getBounds())) {
-
-                    URL musicPath = getClass().getResource(Config.SOUND_PATH + "brick_hit.mp3");
-                    Media sound = new Media(musicPath.toExternalForm());
-                    MediaPlayer mediaPlayer = new MediaPlayer(sound);
-                    mediaPlayer.setVolume(Config.Volume);
-                    mediaPlayer.play();
-
+                    Brick_Hit_Sound.play(Config.Volume);
                     Physic.ballBrickCollision(ball, brick);
                     brick.healthDown();
                     score+= brick.setDestroyed(true);
