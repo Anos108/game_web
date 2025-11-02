@@ -3,7 +3,9 @@ package org.example.demo2;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -38,7 +40,8 @@ public class GameView extends Application {
     private int ball_add=0;
     private int score=0;
     private boolean gameOver=false;
-
+    AnimationTimer gameLoop;
+    private Stage primaryStage;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -58,7 +61,7 @@ public class GameView extends Application {
     public void startGame(Stage stage) {
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         gc = canvas.getGraphicsContext2D();
-
+        primaryStage = stage;
         StackPane root = new StackPane(canvas);
         Scene scene = new Scene(root, WIDTH, HEIGHT);
 
@@ -88,7 +91,7 @@ public class GameView extends Application {
                     if (e.getCode() == KeyCode.D) Config.rightPressed = false;
                 });
 
-        AnimationTimer gameLoop =
+         gameLoop =
                 new AnimationTimer() {
                     @Override
                     public void handle(long now) {
@@ -227,8 +230,34 @@ public class GameView extends Application {
             Config.setScore(score,difficulty);
             score=0;
         }
+        if (gameOver) {
+            handleGameOver();
+        }
+    }
+    private void handleGameOver() {
+
+        gameOver = true;
+        if (gameLoop != null) {
+            gameLoop.stop();
+        }
+        Platform.runLater(this::showGameOver);
     }
 
+    private void showGameOver() {
+        if (primaryStage == null) {
+            return;
+        }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/demo2/GameOver.fxml"));
+            Parent root = loader.load();
+            GameOverController controller = loader.getController();
+            controller.setScore(GameplayManager.getScore());
+            Scene scene = new Scene(root, WIDTH, HEIGHT);
+            primaryStage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     private void render() {
         gc.clearRect(0, 0, WIDTH, HEIGHT);
         gc.drawImage(background, 0, 0, WIDTH, HEIGHT);
