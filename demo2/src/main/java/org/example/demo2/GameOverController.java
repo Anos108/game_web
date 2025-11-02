@@ -40,6 +40,7 @@ public class GameOverController {
     @FXML
     void handlePlayAgain(ActionEvent event){
         try {
+            GameplayManager.resetState();
             Parent root = FXMLLoader.load(getClass().getResource("/org/example/demo2/Difficulty.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root, Config.WIDTH, Config.HEIGHT));

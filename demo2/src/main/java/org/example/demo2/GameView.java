@@ -13,16 +13,21 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Objects;
+
+import static org.example.demo2.GameplayManager.plusScore;
 
 public class GameView extends Application {
     private static final int HEIGHT = 800;
@@ -159,6 +164,11 @@ public class GameView extends Application {
 
             // Paddle collision
             if (Config.interact(ball.getBounds(), paddle.getBounds())) {
+                URL musicPath = getClass().getResource(Config.SOUND_PATH + "brick_hit.mp3");
+                Media sound = new Media(musicPath.toExternalForm());
+                MediaPlayer mediaPlayer = new MediaPlayer(sound);
+                mediaPlayer.setVolume(Config.Volume);
+                mediaPlayer.play();
                 Physic.ballPaddle(ball, paddle);
             }
 
@@ -177,9 +187,17 @@ public class GameView extends Application {
             for (Bricks.Brick brick : bricks) {
                 brick.Update();
                 if (Config.interact(ball.getBounds(), brick.getBounds())) {
+
+                    URL musicPath = getClass().getResource(Config.SOUND_PATH + "brick_hit.mp3");
+                    Media sound = new Media(musicPath.toExternalForm());
+                    MediaPlayer mediaPlayer = new MediaPlayer(sound);
+                    mediaPlayer.setVolume(Config.Volume);
+                    mediaPlayer.play();
+
                     Physic.ballBrickCollision(ball, brick);
                     brick.healthDown();
                     score+= brick.setDestroyed(true);
+                    plusScore(score);
                     if (brick.isDestroyed() && brick.getHasPowerUp()) {
                         powerUps.add(new PowerUp(brick.getX(), brick.getY()));
                     }
@@ -228,7 +246,7 @@ public class GameView extends Application {
         if (GameplayManager.getLife()==0) { // het game
             gameOver=true;
             Config.setScore(score,difficulty);
-            score=0;
+            //score=0;
             GameplayManager.setCheckLife(false);
         }
         if (gameOver) {
