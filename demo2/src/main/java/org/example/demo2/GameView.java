@@ -40,7 +40,6 @@ public class GameView extends Application {
     private List<PowerUp> powerUps;
     static Image background;
     private String difficulty;
-    private long lastHitTime = 0;
   private final Font pixelFont =
       Font.loadFont(
           Objects.requireNonNull(getClass().getResourceAsStream("/asset/fonts/font.ttf")), 40);
@@ -51,6 +50,14 @@ public class GameView extends Application {
     private Stage primaryStage;
     private static final AudioClip Brick_Hit_Sound =
             new AudioClip(GameView.class.getResource(Config.SOUND_PATH + "brick_hit_2.wav").toExternalForm());
+    private static final AudioClip add_life_sound =
+            new AudioClip(GameView.class.getResource(Config.SOUND_PATH + "add_life.wav").toExternalForm());
+    private static final AudioClip ball_add_sound =
+            new AudioClip(GameView.class.getResource(Config.SOUND_PATH + "ball_add.wav").toExternalForm());
+    private static final AudioClip add_slowball_sound =
+            new AudioClip(GameView.class.getResource(Config.SOUND_PATH + "add_slowball.wav").toExternalForm());
+    private static final AudioClip paddle_hit_sound =
+            new AudioClip(GameView.class.getResource(Config.SOUND_PATH + "paddle_hit.wav").toExternalForm());
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -168,7 +175,7 @@ public class GameView extends Application {
 
             // Paddle collision
             if (Config.interact(ball.getBounds(), paddle.getBounds())) {
-                Brick_Hit_Sound.play(Config.Volume);
+                paddle_hit_sound.play(Config.Volume);
                 Physic.ballPaddle(ball, paddle);
             }
 
@@ -200,16 +207,19 @@ public class GameView extends Application {
             }
             for (PowerUp powerUp : powerUps) {
                 if(powerUp.update(paddle.getBounds())==1){
+                    ball_add_sound.play(Config.Volume);
                     ball_add++;
                     powerUp.setDead();
                 }
                 else  if(powerUp.update(paddle.getBounds())==2){
                     for (Ball ball1:balls){
+                        add_slowball_sound.play(Config.Volume);
                         ball1.downSpeed();
                         powerUp.setDead();
                     };
                 }
                 else if(powerUp.update(paddle.getBounds())==3) {
+                    add_slowball_sound.play(Config.Volume);
                     GameplayManager.plusLife();
                     powerUp.setDead();
                 }
