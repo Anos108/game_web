@@ -77,6 +77,12 @@
 
 /* === PHẦN 2: GAME OVER (ĐÃ SỬA SẠCH VÀ DÙNG ĐÚNG ĐƯỜNG DẪN) === */
 
+.game-over-background {
+    -fx-background-image: url('../../../asset/images/game_over_background.jpg');
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
 .play-again-button {
     -fx-background-image: url('../../../asset/images/play_again.png');
     -fx-background-size: cover;
