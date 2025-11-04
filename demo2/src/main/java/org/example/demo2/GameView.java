@@ -95,6 +95,7 @@ public class GameView extends Application {
   }
 
   private void update() {
+      Config.SPEED+=Config.SPEEDUP;
 
     paddle.update(Config.leftPressed, Config.rightPressed, paddle.getBounds());
 
@@ -102,18 +103,13 @@ public class GameView extends Application {
 
     for (Ball ball : balls) {
       gameplayManager.setLevel(ball);
-
+      ball.setSpeed(Config.SPEED);
       ball.update();
-
-      // Paddle collision
       if (Config.interact(ball.getBounds(), paddle.getBounds())) {
         soundManager.get_paddle_hit_sound();
         Physic.ballPaddle(ball, paddle);
       }
-
       lostBallThisFrame = Wall.wallBall(ball);
-
-      // Bricks: (lưu ý chỉ update bricks 1 lần/frame, đoạn dưới tối thiểu sửa va chạm)
       for (Bricks.Brick brick : bricks) {
         brick.Update();
         if (Config.interact(ball.getBounds(), brick.getBounds())) {
@@ -136,7 +132,7 @@ public class GameView extends Application {
         } else if (powerUp.update(paddle.getBounds()) == 2) {
           for (Ball ball1 : balls) {
             soundManager.get_ball_add_sound();
-            ball1.downSpeed();
+            ball1.downSpeed(Config.SPEED);
             powerUp.setDead();
           }
           ;
@@ -149,15 +145,14 @@ public class GameView extends Application {
     }
 
     gameplayManager.cleanLevel(bricks, powerUps, balls);
-
-    // 4) xử lý mất mạng CHỈ 1 LẦN / lần rơi
     if (lostBallThisFrame && balls.isEmpty()) {
-      GameplayManager.equalLife(); // nhớ clamp không cho âm
-      GameplayManager.setCheckLife(false); // cho phép respawn bóng
-      // có thể đặt lại bóng về paddle tại đây nếu muốn
+      GameplayManager.equalLife();
+      GameplayManager.setCheckLife(false);
+    }
+    if (bricks.isEmpty()) {
+      gameplayManager.createLevel(bricks);
     }
 
-    // 5) spawn bóng mới nếu cần (ngoài vòng for)
     if (!GameplayManager.isCheckLife()) {
       balls.add(new Ball(Config.ballX, Config.ballY));
       GameplayManager.setCheckLife(true);

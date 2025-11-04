@@ -26,6 +26,8 @@ public class Config {
 
     public static final double ballX = 50;
     public static final double ballY = 300;
+    public static double SPEED;
+    public static double SPEEDUP;
 
     public static final double paddleX = 0;
     public static final double paddleY = 700;

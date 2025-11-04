@@ -38,8 +38,6 @@ public class MainMenuController {
               mediaPlayer.setVolume(Config.Volume);
               mediaPlayer.play();
               System.out.println("Nhạc nền menu đang phát...");
-          } else {
-              System.err.println("Không tìm thấy file menu_music.mp3!");
           }
       } catch (Exception e) {
           e.printStackTrace();

@@ -133,14 +133,20 @@ public class GameplayManager {
       if (Config.difficulty.equals("easy")) {
           ball.setSpeed(3.5);
           ball.setSpeedUp(0.0001);
+          Config.SPEED=3.5;
+          Config.SPEEDUP=0.001;
 
       } else if (Config.difficulty.equals("medium")) {
           ball.setSpeed(5);
           ball.setSpeedUp(0.0005);
+          Config.SPEED=5;
+          Config.SPEEDUP=0.0005;
 
       } else if (Config.difficulty.equals("hard")) {
           ball.setSpeed(6);
           ball.setSpeedUp(0.001);
+          Config.SPEED=6;
+          Config.SPEEDUP=0.001;
       }
   }
 

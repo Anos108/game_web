@@ -38,8 +38,8 @@ public class Ball {
     public void setSpeed(double speed){
         this.SPEED=speed;
     }
-    public void downSpeed(){
-        this.SPEED = Math.max(1.5, this.SPEED * 0.75);
+    public void downSpeed(Double speed){
+        speed = Math.max(1.5, speed * 0.75);
     }
 
     void render(GraphicsContext gc){
@@ -49,7 +49,6 @@ public class Ball {
         return new Rectangle2D(x, y, 25, 25);
     }
     void update(){
-        this.SPEED+=speedUp;
         this.x=this.x+(Config.gravityX+Math.sin(this.angleOffset))*this.SPEED*interactX; //test
         this.y=this.y+Config.gravityY*this.SPEED*interactY;
 
