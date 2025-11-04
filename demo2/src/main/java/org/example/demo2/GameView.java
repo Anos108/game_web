@@ -197,8 +197,7 @@ public class GameView extends Application {
                     Brick_Hit_Sound.play(Config.Volume);
                     Physic.ballBrickCollision(ball, brick);
                     brick.healthDown();
-                    score+= brick.setDestroyed(true);
-                    plusScore(score);
+                    GameplayManager.plusScore(brick.setDestroyed(true));
                     if (brick.isDestroyed() && brick.getHasPowerUp()) {
                         powerUps.add(new PowerUp(brick.getX(), brick.getY()));
                     }
@@ -297,7 +296,7 @@ public class GameView extends Application {
         }
         gc.setFont(pixelFont); // font + size
         gc.setFill(Color.ORANGE); // màu chữ
-        gc.fillText(String.valueOf(score), 650, 30);
+        gc.fillText(String.valueOf(GameplayManager.getScore()), 650, 30);
 
         gc.setFont(pixelFont); // font + size
         gc.setFill(Color.ORANGE); // màu chữ
