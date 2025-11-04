@@ -21,5 +21,17 @@ public class Wall {
             return 0;
         }
     }
+    public static boolean wallBall(Ball ball){
+        int w = Wall.check_wall(ball.getBounds());
+        if (w == 1) {
+            ball.setInteractY(); // top
+        } else if (w == 2 || w == 3) {
+            ball.setInteractX(); // left/right
+        } else if (w == 4) { // bottom -> đánh dấu mất bóng
+            ball.setDead(true); // cờ để remove ở ngoài
+            return true;
+        }
+        return false;
+    }
 
 }

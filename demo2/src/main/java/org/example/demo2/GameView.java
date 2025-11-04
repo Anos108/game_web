@@ -28,280 +28,200 @@ import java.util.List;
 import java.util.Random;
 import java.util.Objects;
 
-import static org.example.demo2.GameplayManager.plusScore;
-
 public class GameView extends Application {
-    private static final int HEIGHT = 800;
-    private static final int WIDTH = 800;
-    private GraphicsContext gc;
-    private List<Ball> balls;
-    private Paddle paddle;
-    private List<Bricks.Brick> bricks;
-    private List<PowerUp> powerUps;
-    static Image background;
-    private String difficulty;
-  private final Font pixelFont =
-      Font.loadFont(
-          Objects.requireNonNull(getClass().getResourceAsStream("/asset/fonts/font.ttf")), 40);
-    private int ball_add=0;
-    private int score=0;
-    public static boolean gameOver=false;
-    AnimationTimer gameLoop;
-    private Stage primaryStage;
-    private static final AudioClip Brick_Hit_Sound =
-            new AudioClip(GameView.class.getResource(Config.SOUND_PATH + "brick_hit_2.wav").toExternalForm());
-    private static final AudioClip add_life_sound =
-            new AudioClip(GameView.class.getResource(Config.SOUND_PATH + "add_life.wav").toExternalForm());
-    private static final AudioClip ball_add_sound =
-            new AudioClip(GameView.class.getResource(Config.SOUND_PATH + "ball_add.wav").toExternalForm());
-    private static final AudioClip add_slowball_sound =
-            new AudioClip(GameView.class.getResource(Config.SOUND_PATH + "add_slowball.wav").toExternalForm());
-    private static final AudioClip paddle_hit_sound =
-            new AudioClip(GameView.class.getResource(Config.SOUND_PATH + "paddle_hit.wav").toExternalForm());
+  private List<Ball> balls;
+  private Paddle paddle;
+  private List<Bricks.Brick> bricks;
+  private List<PowerUp> powerUps;
+  private SoundManager soundManager;
+  public static GameplayManager gameplayManager;
 
-    @Override
-    public void start(Stage stage) throws IOException {
-        stage.setTitle("Arkanoid");
+  @Override
+  public void start(Stage stage) throws IOException {
+    stage.setTitle("Arkanoid");
 
-        // Load MainMenu FXML
-        Parent root = FXMLLoader.load(getClass().getResource("/org/example/demo2/MainMenu.fxml"));
-        Scene menuScene = new Scene(root, WIDTH, HEIGHT);
-        stage.setScene(menuScene);
-        stage.show();
+    // Load MainMenu FXML
+    Parent root = FXMLLoader.load(getClass().getResource("/org/example/demo2/MainMenu.fxml"));
+    Scene menuScene = new Scene(root, Config.WIDTH, Config.HEIGHT);
+    stage.setScene(menuScene);
+    stage.show();
+  }
+
+  public void setDifficulty(String difficulty) {
+    Config.difficulty = difficulty;
+  }
+
+  public void startGame(Stage stage) {
+    Canvas canvas = new Canvas(Config.WIDTH, Config.HEIGHT);
+    Config.gc = canvas.getGraphicsContext2D();
+    Config.primaryStage = stage;
+    StackPane root = new StackPane(canvas);
+    Scene scene = new Scene(root, Config.WIDTH, Config.HEIGHT);
+
+    stage.setScene(scene);
+
+    gameplayManager = new GameplayManager();
+    soundManager = new SoundManager();
+    balls = new ArrayList<>();
+    powerUps = new ArrayList<>();
+    paddle = new Paddle(Config.paddleX, Config.paddleY);
+    Config.background =
+        new Image(
+            Objects.requireNonNull(getClass().getResourceAsStream("/asset/images/background.png")));
+    bricks = new ArrayList<>();
+    gameplayManager.createLevel(bricks);
+
+    // key sensor
+    scene.setOnKeyPressed(
+        e -> {
+          if (e.getCode() == KeyCode.A) Config.leftPressed = true;
+          if (e.getCode() == KeyCode.D) Config.rightPressed = true;
+        });
+    scene.setOnKeyReleased(
+        e -> {
+          if (e.getCode() == KeyCode.A) Config.leftPressed = false;
+          if (e.getCode() == KeyCode.D) Config.rightPressed = false;
+        });
+
+    Config.gameLoop =
+        new AnimationTimer() {
+          @Override
+          public void handle(long now) {
+            update();
+            render();
+          }
+        };
+    Config.gameLoop.start();
+  }
+
+  private void update() {
+
+    paddle.update(Config.leftPressed, Config.rightPressed, paddle.getBounds());
+
+    boolean lostBallThisFrame = false;
+
+    for (Ball ball : balls) {
+      gameplayManager.setLevel(ball);
+
+      ball.update();
+
+      // Paddle collision
+      if (Config.interact(ball.getBounds(), paddle.getBounds())) {
+        soundManager.get_paddle_hit_sound();
+        Physic.ballPaddle(ball, paddle);
+      }
+
+      lostBallThisFrame = Wall.wallBall(ball);
+
+      // Bricks: (lưu ý chỉ update bricks 1 lần/frame, đoạn dưới tối thiểu sửa va chạm)
+      for (Bricks.Brick brick : bricks) {
+        brick.Update();
+        if (Config.interact(ball.getBounds(), brick.getBounds())) {
+          soundManager.get_brick_Hit_Sound();
+          Physic.ballBrickCollision(ball, brick);
+          brick.healthDown();
+          gameplayManager.plusScore(brick.setDestroyed(true));
+          if (brick.isDestroyed() && brick.getHasPowerUp()) {
+            powerUps.add(new PowerUp(brick.getX(), brick.getY()));
+          }
+          break;
+        }
+      }
+
+      for (PowerUp powerUp : powerUps) {
+        if (powerUp.update(paddle.getBounds()) == 1) {
+          soundManager.get_ball_add_sound();
+          gameplayManager.setBall_plus();
+          powerUp.setDead();
+        } else if (powerUp.update(paddle.getBounds()) == 2) {
+          for (Ball ball1 : balls) {
+            soundManager.get_ball_add_sound();
+            ball1.downSpeed();
+            powerUp.setDead();
+          }
+          ;
+        } else if (powerUp.update(paddle.getBounds()) == 3) {
+          soundManager.get_ball_add_sound();
+          GameplayManager.plusLife();
+          powerUp.setDead();
+        }
+      }
     }
 
-    public void setDifficulty(String difficulty) {
-        this.difficulty = difficulty;
+    gameplayManager.cleanLevel(bricks, powerUps, balls);
+
+    // 4) xử lý mất mạng CHỈ 1 LẦN / lần rơi
+    if (lostBallThisFrame && balls.isEmpty()) {
+      GameplayManager.equalLife(); // nhớ clamp không cho âm
+      GameplayManager.setCheckLife(false); // cho phép respawn bóng
+      // có thể đặt lại bóng về paddle tại đây nếu muốn
     }
 
-    public void startGame(Stage stage) {
-        Canvas canvas = new Canvas(WIDTH, HEIGHT);
-        gc = canvas.getGraphicsContext2D();
-        primaryStage = stage;
-        StackPane root = new StackPane(canvas);
-        Scene scene = new Scene(root, WIDTH, HEIGHT);
-
-        stage.setScene(scene);
-
-//        ball = new Ball(Config.ballX, Config.ballY);
-        balls = new ArrayList<>();
-        powerUps = new ArrayList<>();
-        paddle = new Paddle(Config.paddleX, Config.paddleY);
-        background =
-                new Image(
-                        Objects.requireNonNull(getClass().getResourceAsStream("/asset/images/background.png")));
-
-        // Khởi tạo danh sách gạch và tạo màn chơi
-        bricks = new ArrayList<>();
-        createLevel();
-
-        // key sensor
-        scene.setOnKeyPressed(
-                e -> {
-                    if (e.getCode() == KeyCode.A) Config.leftPressed = true;
-                    if (e.getCode() == KeyCode.D) Config.rightPressed = true;
-                });
-        scene.setOnKeyReleased(
-                e -> {
-                    if (e.getCode() == KeyCode.A) Config.leftPressed = false;
-                    if (e.getCode() == KeyCode.D) Config.rightPressed = false;
-                });
-
-         gameLoop =
-                new AnimationTimer() {
-                    @Override
-                    public void handle(long now) {
-                        update();
-                        render();
-                    }
-                };
-        gameLoop.start();
+    // 5) spawn bóng mới nếu cần (ngoài vòng for)
+    if (!GameplayManager.isCheckLife()) {
+      balls.add(new Ball(Config.ballX, Config.ballY));
+      GameplayManager.setCheckLife(true);
     }
-
-    private void createLevel() {
-
-        Random random = new Random();
-        int rows = 4;
-        int cols = 8;
-        double brickWidth = Config.brickWidth;
-        double brickHeight = Config.brickHeight;
-        double startX = 65;
-        double startY = 50;
-        double padding = 15;
-
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < cols; c++) {
-                double x = startX + c * (brickWidth + padding);
-                double y = startY + r * (brickHeight + padding);
-
-                Bricks.Brick newBrick;
-                int colorRandom = random.nextInt(4);
-                newBrick =
-                        switch (colorRandom) {
-                            case 0 -> new Bricks.BrickRed(x, y, brickWidth, brickHeight);
-                            case 1 -> new Bricks.BrickOrange(x, y, brickWidth, brickHeight);
-                            case 2 -> new Bricks.BrickGreen(x, y, brickWidth, brickHeight);
-                            default -> new Bricks.BrickPurple(x, y, brickWidth, brickHeight);
-                        };
-                bricks.add(newBrick);
-            }
-        }
+    for (int i = 0; i < gameplayManager.getBall_add(); i++) {
+      balls.add(new Ball(Config.ballX, Config.ballY));
     }
-
-    private void update() {
-
-        // 1) update paddle 1 lần/frame
-        paddle.update(Config.leftPressed, Config.rightPressed, paddle.getBounds());
-
-        boolean lostBallThisFrame = false;
-
-        // 2) duyệt balls bằng index (không thêm/xóa ở đây)
-        for (Ball ball : balls) {
-            if (difficulty.equals("easy")) {
-                ball.setSpeed(3.5);
-                ball.setSpeedUp(0.0001);
-
-            } else if (difficulty.equals("medium")) {
-                ball.setSpeed(5);
-                ball.setSpeedUp(0.0005);
-
-            } else if (difficulty.equals("hard")) {
-                ball.setSpeed(6);
-                ball.setSpeedUp(0.001);
-
-            }
-
-            ball.update();
-
-            // Paddle collision
-            if (Config.interact(ball.getBounds(), paddle.getBounds())) {
-                paddle_hit_sound.play(Config.Volume);
-                Physic.ballPaddle(ball, paddle);
-            }
-
-            // Wall collision
-            int w = Wall.check_wall(ball.getBounds());
-            if (w == 1) {
-                ball.setInteractY();                 // top
-            } else if (w == 2 || w == 3) {
-                ball.setInteractX();                 // left/right
-            } else if (w == 4) {                     // bottom -> đánh dấu mất bóng
-                lostBallThisFrame = true;
-                ball.setDead(true);                  // cờ để remove ở ngoài
-            }
-
-            // Bricks: (lưu ý chỉ update bricks 1 lần/frame, đoạn dưới tối thiểu sửa va chạm)
-            for (Bricks.Brick brick : bricks) {
-                brick.Update();
-                if (Config.interact(ball.getBounds(), brick.getBounds())) {
-                    Brick_Hit_Sound.play(Config.Volume);
-                    Physic.ballBrickCollision(ball, brick);
-                    brick.healthDown();
-                    GameplayManager.plusScore(brick.setDestroyed(true));
-                    if (brick.isDestroyed() && brick.getHasPowerUp()) {
-                        powerUps.add(new PowerUp(brick.getX(), brick.getY()));
-                    }
-                    break;
-                }
-            }
-            for (PowerUp powerUp : powerUps) {
-                if(powerUp.update(paddle.getBounds())==1){
-                    ball_add_sound.play(Config.Volume);
-                    ball_add++;
-                    powerUp.setDead();
-                }
-                else  if(powerUp.update(paddle.getBounds())==2){
-                    for (Ball ball1:balls){
-                        add_slowball_sound.play(Config.Volume);
-                        ball1.downSpeed();
-                        powerUp.setDead();
-                    };
-                }
-                else if(powerUp.update(paddle.getBounds())==3) {
-                    add_slowball_sound.play(Config.Volume);
-                    GameplayManager.plusLife();
-                    powerUp.setDead();
-                }
-            }
-        }
-
-        // 3) dọn dẹp ngoài vòng lặp
-        balls.removeIf(Ball::isDead);
-        bricks.removeIf(Bricks.Brick::isDestroyed);
-        powerUps.removeIf(PowerUp::isDead);
-
-        // 4) xử lý mất mạng CHỈ 1 LẦN / lần rơi
-        if (lostBallThisFrame && balls.isEmpty()) {
-            GameplayManager.equalLife();      // nhớ clamp không cho âm
-            GameplayManager.setCheckLife(false);  // cho phép respawn bóng
-            // có thể đặt lại bóng về paddle tại đây nếu muốn
-        }
-
-        // 5) spawn bóng mới nếu cần (ngoài vòng for)
-        if (!GameplayManager.isCheckLife()) {
-            balls.add(new Ball(Config.ballX, Config.ballY));
-            GameplayManager.setCheckLife(true);
-        }
-        for (int i=0;i<ball_add;i++){
-            balls.add(new Ball(Config.ballX, Config.ballY));
-        }
-        ball_add=0;
-        if (GameplayManager.getLife()==0) { // het game
-            gameOver=true;
-            Config.setScore(score,difficulty);
-            //score=0;
-            GameplayManager.setCheckLife(false);
-        }
-        if (gameOver) {
-            handleGameOver();
-        }
+    gameplayManager.setBall_add(0);
+    if (GameplayManager.getLife() == 0) { // het game
+      gameplayManager.setGameOver(true);
+      Config.setScore(GameplayManager.getScore(), Config.difficulty);
+      GameplayManager.setCheckLife(false);
     }
-    private void handleGameOver() {
-
-        gameOver = true;
-        if (gameLoop != null) {
-            gameLoop.stop();
-        }
-        Platform.runLater(this::showGameOver);
+    if (gameplayManager.getGameOver()) {
+      handleGameOver();
     }
+  }
 
-    private void showGameOver() {
-        if (primaryStage == null) {
-            return;
-        }
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/demo2/GameOver.fxml"));
-            Parent root = loader.load();
-            GameOverController controller = loader.getController();
-            controller.setScore(GameplayManager.getScore());
-            Scene scene = new Scene(root, WIDTH, HEIGHT);
-            primaryStage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+  private void handleGameOver() {
+
+    gameplayManager.setGameOver(true);
+    if (Config.gameLoop != null) {
+      Config.gameLoop.stop();
     }
-    private void render() {
-        gc.clearRect(0, 0, WIDTH, HEIGHT);
-        gc.drawImage(background, 0, 0, WIDTH, HEIGHT);
-        GameplayManager.renderLives(gc);
-        for (Ball ball : balls) {
-            ball.render(gc);
-        }
-        paddle.render(gc);
-        for (Bricks.Brick brick : bricks) {
-            brick.render(gc);
-        }
-        for (PowerUp powerUp : powerUps) {
-            powerUp.renderPowerUp(gc);
-        }
-        gc.setFont(pixelFont); // font + size
-        gc.setFill(Color.ORANGE); // màu chữ
-        gc.fillText(String.valueOf(GameplayManager.getScore()), 650, 30);
+    Platform.runLater(this::showGameOver);
+  }
 
-        gc.setFont(pixelFont); // font + size
-        gc.setFill(Color.ORANGE); // màu chữ
-        gc.fillText(String.valueOf(Config.getScore(difficulty)), 400, 30);
-
+  private void showGameOver() {
+    if (Config.primaryStage == null) {
+      return;
     }
+    try {
+      FXMLLoader loader =
+          new FXMLLoader(getClass().getResource("/org/example/demo2/GameOver.fxml"));
+      Parent root = loader.load();
+      GameOverController controller = loader.getController();
+      controller.setScore(GameplayManager.getScore());
+      Scene scene = new Scene(root, Config.WIDTH, Config.HEIGHT);
+      Config.primaryStage.setScene(scene);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
+  private void render() {
+    Config.gc.clearRect(0, 0, Config.WIDTH, Config.HEIGHT);
+    Config.gc.drawImage(Config.background, 0, 0, Config.WIDTH, Config.HEIGHT);
+    GameplayManager.renderLives(Config.gc);
+    for (Ball ball : balls) {
+      ball.render(Config.gc);
+    }
+    paddle.render(Config.gc);
+    for (Bricks.Brick brick : bricks) {
+      brick.render(Config.gc);
+    }
+    for (PowerUp powerUp : powerUps) {
+      powerUp.renderPowerUp(Config.gc);
+    }
+    Config.gc.setFont(Config.pixelFont); // font + size
+    Config.gc.setFill(Color.ORANGE); // màu chữ
+    Config.gc.fillText(String.valueOf(GameplayManager.getScore()), 650, 30);
+
+    Config.gc.setFont(Config.pixelFont); // font + size
+    Config.gc.setFill(Color.ORANGE); // màu chữ
+    Config.gc.fillText(String.valueOf(Config.getScore(Config.difficulty)), 400, 30);
+  }
 }

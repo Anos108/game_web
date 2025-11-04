@@ -48,7 +48,7 @@ public class GameOverController {
             Parent root = FXMLLoader.load(getClass().getResource("/org/example/demo2/MainMenu.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root, Config.WIDTH, Config.HEIGHT));
-            GameView.gameOver=false;
+            GameView.gameplayManager.setGameOver(false);
             GameplayManager.resetLife();
         } catch (Exception e) {
             e.printStackTrace();
@@ -62,7 +62,7 @@ public class GameOverController {
             Parent root = FXMLLoader.load(getClass().getResource("/org/example/demo2/Difficulty.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root, Config.WIDTH, Config.HEIGHT));
-            GameView.gameOver=false;
+            GameView.gameplayManager.setGameOver(false);
             GameplayManager.resetLife();
         } catch (Exception e) {
             e.printStackTrace();
