@@ -7,14 +7,31 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
 import javafx.scene.control.Label;
 
 public class GameOverController {
     @FXML
     private Label scoreLabel;
+    
+    @FXML
+    public void initialize() {
+        // Load font từ resources
+        Font pixelFont = Font.loadFont(
+            getClass().getResourceAsStream("/asset/fonts/font.ttf"), 
+            40
+        );
+        
+        if (pixelFont != null) {
+            scoreLabel.setFont(pixelFont);
+            scoreLabel.setTextFill(Color.ORANGE);
+        } else {
+            System.out.println("Font không load được!");
+        }
+    }
+    
     public void setScore(int score) {
         scoreLabel.setText("Score: " + score);
     }
