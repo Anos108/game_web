@@ -1,4 +1,8 @@
 /* === PHẦN 1: MENU CHÍNH VÀ ĐỘ KHÓ === */
+@font-face {
+    font-family: "MyCustomFont";
+    src: url("asset/fonts/font.ttf");
+}
 .menu-button {
     -fx-background-color: transparent;
 }
@@ -75,7 +79,6 @@
     -fx-effect: dropshadow(gaussian, orangered, 30, 0.8, 0, 0);
 }
 
-/* === PHẦN 2: GAME OVER (ĐÃ SỬA SẠCH VÀ DÙNG ĐÚNG ĐƯỜNG DẪN) === */
 
 .game-over-background {
     -fx-background-image: url('../../../asset/images/game_over_background.jpg');
@@ -109,3 +112,22 @@
 .exit-back-button:hover {
     -fx-effect: dropshadow(gaussian, red, 25, 0.7, 0, 0);
 }
+
+@font-face {
+    font-family: "MyCustomFont";
+    src: url("asset/fonts/font.ttf");
+}
+
+
+.label-score {
+    -fx-font-family: "MyCustomFont";
+    -fx-font-size: 40px;
+    -fx-text-fill: white;
+}
+.game-over-title {
+    -fx-font-family: "MyCustomFont";
+    -fx-font-size: 80px; /* Chỉnh kích thước tùy ý */
+    -fx-text-fill: white; /* Chỉnh màu tùy ý */
+    -fx-effect: dropshadow(gaussian, black, 10, 0.5, 2, 2);
+}
+
