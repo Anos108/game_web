@@ -17,13 +17,13 @@ public class SettingController {
     public void setMediaPlayer(MediaPlayer mediaPlayer) {
         this.mediaPlayer = mediaPlayer;
         if (volumeSlide != null) {
-            volumeSlide.setValue(Config.Volume * 100);
+            volumeSlide.setValue(Config.getInstance().getVolume() * 100);
             if (this.mediaPlayer != null) {
-                this.mediaPlayer.setVolume(Config.Volume);
+                this.mediaPlayer.setVolume(Config.getInstance().getVolume());
             }
             volumeSlide.valueProperty().addListener((obs, oldVal, newVal) -> {
                 double normalized = newVal.doubleValue() / 100.0;
-                Config.Volume = normalized;
+                Config.getInstance().setVolume(normalized);
                 if (this.mediaPlayer != null) {
                     this.mediaPlayer.setVolume(normalized);
                 }

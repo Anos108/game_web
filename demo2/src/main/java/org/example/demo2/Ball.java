@@ -49,8 +49,8 @@ public class Ball {
         return new Rectangle2D(x, y, 25, 25);
     }
     void update(){
-        this.x=this.x+(Config.gravityX+Math.sin(this.angleOffset))*this.SPEED*interactX; //test
-        this.y=this.y+Config.gravityY*this.SPEED*interactY;
+        this.x=this.x+(Config.GRAVITY_X+Math.sin(this.angleOffset))*this.SPEED*interactX; //test
+        this.y=this.y+Config.GRAVITY_Y*this.SPEED*interactY;
 
     }
     public void  setInteract(){

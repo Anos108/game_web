@@ -35,7 +35,7 @@ public class MainMenuController {
               Media sound = new Media(musicPath.toExternalForm());
               mediaPlayer = new MediaPlayer(sound);
               mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // lặp vô hạn
-              mediaPlayer.setVolume(Config.Volume);
+              mediaPlayer.setVolume(Config.getInstance().getVolume());
               mediaPlayer.play();
               System.out.println("Nhạc nền menu đang phát...");
           }

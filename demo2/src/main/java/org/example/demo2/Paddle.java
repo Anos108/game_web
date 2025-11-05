@@ -30,7 +30,7 @@ public class Paddle {
     }
 
     void render(GraphicsContext gc) {
-    gc.drawImage(img, x, y,Config.paddleWidth , Config.paddleHeight );
+    gc.drawImage(img, x, y,Config.PADDLE_WIDTH , Config.PADDLE_HEIGHT );
   }
 
   void update(boolean left, boolean right,Rectangle2D bounds) {
@@ -59,6 +59,6 @@ public class Paddle {
   }
 
     public Rectangle2D getBounds(){
-        return new Rectangle2D(x, y, Config.paddleWidth , Config.paddleHeight);
+        return new Rectangle2D(x, y, Config.PADDLE_WIDTH , Config.PADDLE_HEIGHT);
     }
 }

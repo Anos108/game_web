@@ -90,12 +90,12 @@ public class Bricks {
         void render(GraphicsContext gc) {
             gc.save();
             gc.setGlobalAlpha(alpha);
-            gc.drawImage(img, this.x, this.y, Config.brickWidth, Config.brickHeight);
+            gc.drawImage(img, this.x, this.y, Config.BRICK_WIDTH, Config.BRICK_HEIGHT);
             gc.restore();
             gc.save();
             if (glowTime > 0) gc.setEffect(glow);
             gc.setGlobalAlpha(alpha);
-            gc.drawImage(img, x, y, Config.brickWidth, Config.brickHeight);
+            gc.drawImage(img, x, y, Config.BRICK_WIDTH, Config.BRICK_HEIGHT);
             gc.restore();
         }
         void Update() {
@@ -109,7 +109,7 @@ public class Bricks {
         }
 
         public Rectangle2D getBounds(){
-            return new Rectangle2D(x, y, Config.brickWidth, Config.brickHeight);
+            return new Rectangle2D(x, y, Config.BRICK_WIDTH, Config.BRICK_HEIGHT);
         }
 
         public boolean isDestroyed() {

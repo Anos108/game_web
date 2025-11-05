@@ -66,8 +66,10 @@ public class GameplayManager {
     life = 3;
   }
 
-  public static int plusLife() {
-    return life++;
+  public static void plusLife() {
+      if (life <= 5){
+          life++;
+      }
   }
 
   public void plusScore(int score) {
@@ -99,8 +101,8 @@ public class GameplayManager {
     Random random = new Random();
     int rows = 4;
     int cols = 8;
-    double brickWidth = Config.brickWidth;
-    double brickHeight = Config.brickHeight;
+    double brickWidth = Config.BRICK_WIDTH;
+    double brickHeight = Config.BRICK_HEIGHT;
     double startX = 65;
     double startY = 50;
     double padding = 15;
@@ -130,23 +132,20 @@ public class GameplayManager {
   }
 
   public void  setLevel(Ball ball) {
-      if (Config.difficulty.equals("easy")) {
-          ball.setSpeed(3.5);
+      if (Config.getInstance().getDifficulty().equals("easy")) {
           ball.setSpeedUp(0.0001);
-          Config.SPEED=3.5;
-          Config.SPEEDUP=0.001;
+          Config.getInstance().setSpeed(3.5);
+          Config.getInstance().setSpeedUp(0.0001);
 
-      } else if (Config.difficulty.equals("medium")) {
-          ball.setSpeed(5);
+      } else if (Config.getInstance().getDifficulty().equals("medium")) {
           ball.setSpeedUp(0.0005);
-          Config.SPEED=5;
-          Config.SPEEDUP=0.0005;
+          Config.getInstance().setSpeed(5);
+          Config.getInstance().setSpeedUp(0.0005);
 
-      } else if (Config.difficulty.equals("hard")) {
-          ball.setSpeed(6);
+      } else if (Config.getInstance().getDifficulty().equals("hard")) {
           ball.setSpeedUp(0.001);
-          Config.SPEED=6;
-          Config.SPEEDUP=0.001;
+          Config.getInstance().setSpeed(6);
+          Config.getInstance().setSpeedUp(0.001);
       }
   }
 

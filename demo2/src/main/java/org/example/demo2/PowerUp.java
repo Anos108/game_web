@@ -43,7 +43,7 @@ public class PowerUp {
 
     public int update(Rectangle2D ball) {
         y+=1;
-        if(Config.interact(getBounds(),ball)){
+        if(Config.getInstance().interact(getBounds(),ball)){
             switch (powerUpUrl) {
                 case "lifeBoost.png" :
                     return 3;
