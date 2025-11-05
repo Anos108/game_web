@@ -67,9 +67,10 @@ public class GameplayManager {
   }
 
   public static void plusLife() {
-      if (life <= 5){
+      if (life < 5){
           life++;
       }
+      return;
   }
 
   public void plusScore(int score) {

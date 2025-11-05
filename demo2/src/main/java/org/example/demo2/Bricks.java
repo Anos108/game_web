@@ -81,6 +81,7 @@ public class Bricks {
         public int setDestroyed(boolean destroyed) {
             if(health==0){
                 this.destroyed = destroyed;
+                SoundManager.getInstance().playBrickBrakeSound();
                 return score;
             }
             alpha = clamp((double) health / (double) maxHealth, 0.0, 1.0);

@@ -29,7 +29,7 @@ public class MainMenuController {
     System.out.println("Menu Controller đã được khởi tạo!");
       try {
           // Tải file âm thanh menu
-          URL musicPath = getClass().getResource(Config.SOUND_PATH + "msbg.mp3");
+          URL musicPath = getClass().getResource(Config.SOUND_PATH + "msbg.wav");
 
           if (musicPath != null) {
               Media sound = new Media(musicPath.toExternalForm());

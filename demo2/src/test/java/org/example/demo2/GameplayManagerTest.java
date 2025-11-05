@@ -72,6 +72,19 @@ class GameplayManagerTest {
         assertEquals(initialLife + 1, GameplayManager.getLife(), 
                     "Life should increase by 1");
     }
+
+    @Test
+    @DisplayName("Test life max")
+    void testLifeMax() {
+        GameplayManager.resetLife();
+        GameplayManager.plusLife();
+        GameplayManager.plusLife();
+        GameplayManager.plusLife();
+        GameplayManager.plusLife();
+
+        assertEquals(5, GameplayManager.getLife(),
+                "Life should increase by 5");
+    }
     
     @Test
     @DisplayName("Test reset life")

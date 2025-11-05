@@ -22,6 +22,8 @@ public class Ball {
                 getClass().getResourceAsStream(Config.IMAGE_PATH+"ball.png")
 
         ));
+        setInteractY();
+
     }
 
     public void setDead(boolean dead) {
@@ -50,7 +52,7 @@ public class Ball {
     }
     void update(){
         this.x=this.x+(Config.GRAVITY_X+Math.sin(this.angleOffset))*this.SPEED*interactX; //test
-        this.y=this.y+Config.GRAVITY_Y*this.SPEED*interactY;
+        this.y=this.y+(Config.GRAVITY_Y-Math.cos(this.angleOffset))*this.SPEED*interactY;
 
     }
     public void  setInteract(){
