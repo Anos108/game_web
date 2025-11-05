@@ -30,6 +30,7 @@ public class GameView extends Application {
     stage.setTitle("Arkanoid");
     Parent root = FXMLLoader.load(getClass().getResource("/org/example/demo2/MainMenu.fxml"));
     Scene menuScene = new Scene(root, Config.WIDTH, Config.HEIGHT);
+    stage.getIcons().add(new Image(Objects.requireNonNull(Config.class.getResourceAsStream("/asset/images/logo.png"))));
     stage.setScene(menuScene);
     stage.show();
   }
