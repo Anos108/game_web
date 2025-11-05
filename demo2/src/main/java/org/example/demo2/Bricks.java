@@ -51,6 +51,9 @@ public class Bricks {
         public void setScore(int score) {
             this.score = score;
         }
+        public int getHealth() {
+            return health;
+        }
 
         public int getScore() {
             return score;
