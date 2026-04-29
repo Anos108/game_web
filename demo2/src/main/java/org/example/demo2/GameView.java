@@ -1,5 +1,10 @@
 package org.example.demo2;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -13,11 +18,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 public class GameView extends Application {
   private List<Ball> balls;
   private Paddle paddle;
@@ -29,7 +29,7 @@ public class GameView extends Application {
   public void start(Stage stage) throws IOException {
     stage.setTitle("Arkanoid");
     Parent root = FXMLLoader.load(getClass().getResource("/org/example/demo2/MainMenu.fxml"));
-    Scene menuScene = new Scene(root, Config.WIDTH, Config.HEIGHT);
+    Scene menuScene = ResponsiveSceneFactory.create(root);
     stage.getIcons().add(new Image(Objects.requireNonNull(Config.class.getResourceAsStream("/asset/images/logo.png"))));
     stage.setScene(menuScene);
     stage.show();
@@ -44,7 +44,7 @@ public class GameView extends Application {
     Config.getInstance().setGc(canvas.getGraphicsContext2D());
     Config.getInstance().setPrimaryStage(stage);
     StackPane root = new StackPane(canvas);
-    Scene scene = new Scene(root, Config.WIDTH, Config.HEIGHT);
+    Scene scene = ResponsiveSceneFactory.create(root);
 
     stage.setScene(scene);
 
@@ -187,7 +187,7 @@ public class GameView extends Application {
       Parent root = loader.load();
       GameOverController controller = loader.getController();
       controller.setScore(GameplayManager.getScore());
-      Scene scene = new Scene(root, Config.WIDTH, Config.HEIGHT);
+      Scene scene = ResponsiveSceneFactory.create(root);
       primaryStage.setScene(scene);
     } catch (IOException e) {
       e.printStackTrace();

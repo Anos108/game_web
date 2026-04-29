@@ -14,3 +14,19 @@
 - Ngôn ngữ: Java <br>
 - Framework: JavaFX <br>
 - Thiết kế: Scene Builder
+
+## Chạy game trên web local bằng JPro
+
+Yêu cầu trước khi chạy:
+- Cài JDK 21
+- Thiết lập biến môi trường `JAVA_HOME` trỏ đến thư mục JDK và thêm `%JAVA_HOME%\\bin` vào `Path`
+
+Lệnh chạy local:
+
+```powershell
+cd demo2
+.\mvnw.cmd jpro:run
+```
+
+Sau khi server khởi động, mở trình duyệt tại:
+- `http://localhost:8080/index.html`

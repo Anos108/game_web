@@ -1,5 +1,7 @@
 package org.example.demo2;
 
+import java.net.URL;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -7,12 +9,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import java.net.URL;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class MainMenuController {
 
@@ -51,7 +51,7 @@ public class MainMenuController {
     try {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
       Parent root = FXMLLoader.load(getClass().getResource("/org/example/demo2/Difficulty.fxml"));
-      Scene difficultyScene = new Scene(root, 800, 800);
+      Scene difficultyScene = ResponsiveSceneFactory.create(root);
       stage.setScene(difficultyScene);
 
     } catch (Exception e) {

@@ -6,11 +6,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.scene.control.Label;
 
 public class GameOverController {
     @FXML
@@ -47,7 +46,7 @@ public class GameOverController {
             GameplayManager.resetState();
             Parent root = FXMLLoader.load(getClass().getResource("/org/example/demo2/MainMenu.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root, Config.WIDTH, Config.HEIGHT));
+            stage.setScene(ResponsiveSceneFactory.create(root));
             GameView.gameplayManager.setGameOver(false);
             GameplayManager.resetLife();
         } catch (Exception e) {
@@ -61,7 +60,7 @@ public class GameOverController {
             GameplayManager.resetState();
             Parent root = FXMLLoader.load(getClass().getResource("/org/example/demo2/Difficulty.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root, Config.WIDTH, Config.HEIGHT));
+            stage.setScene(ResponsiveSceneFactory.create(root));
             GameView.gameplayManager.setGameOver(false);
             GameplayManager.resetLife();
         } catch (Exception e) {
