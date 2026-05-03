@@ -1,3 +1,11 @@
+/* Full-bleed blurred backdrop behind the playfield (JavaFX: blur/brightness via code, not web filter). */
+.game-play-backdrop {
+    -fx-background-image: url('../../../asset/images/background.png');
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+}
+
 /* === PHẦN 1: MENU CHÍNH VÀ ĐỘ KHÓ === */
 .menu-button {
     -fx-background-color: transparent;

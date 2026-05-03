@@ -9,11 +9,15 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -43,8 +47,37 @@ public class GameView extends Application {
     Canvas canvas = new Canvas(Config.WIDTH, Config.HEIGHT);
     Config.getInstance().setGc(canvas.getGraphicsContext2D());
     Config.getInstance().setPrimaryStage(stage);
-    StackPane root = new StackPane(canvas);
-    Scene scene = ResponsiveSceneFactory.create(root);
+
+    Image bgImage =
+        new Image(
+            Objects.requireNonNull(
+                getClass().getResourceAsStream(Config.IMAGE_PATH + "background.png")));
+
+    Region backdrop = new Region();
+    backdrop.getStyleClass().add("game-play-backdrop");
+    backdrop.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+    // ~ web CSS filter: blur(8px) brightness(0.4) — JavaFX uses effect chain on the node
+    GaussianBlur blur = new GaussianBlur(8);
+    ColorAdjust darken = new ColorAdjust();
+    darken.setBrightness(-0.6);
+    darken.setInput(blur);
+    backdrop.setEffect(darken);
+
+    StackPane canvasHost = new StackPane(canvas);
+    StackPane.setAlignment(canvas, Pos.CENTER);
+    canvasHost.setPrefSize(Config.WIDTH, Config.HEIGHT);
+    canvasHost.setMinSize(Config.WIDTH, Config.HEIGHT);
+    canvasHost.setMaxSize(Config.WIDTH, Config.HEIGHT);
+    canvasHost.setScaleX(ResponsiveSceneFactory.CONTENT_SCALE);
+    canvasHost.setScaleY(ResponsiveSceneFactory.CONTENT_SCALE);
+
+    StackPane root = new StackPane(backdrop, canvasHost);
+    Scene scene = new Scene(root, Config.WIDTH, Config.HEIGHT);
+    scene
+        .getStylesheets()
+        .add(
+            Objects.requireNonNull(getClass().getResource("/org/example/demo2/styles.css"))
+                .toExternalForm());
 
     stage.setScene(scene);
 
@@ -52,11 +85,7 @@ public class GameView extends Application {
     balls = new ArrayList<>();
     powerUps = new ArrayList<>();
     paddle = new Paddle(Config.PADDLE_START_X, Config.PADDLE_START_Y);
-    Config.getInstance()
-        .setBackground(
-            new Image(
-                Objects.requireNonNull(
-                    getClass().getResourceAsStream(Config.IMAGE_PATH + "background.png"))));
+    Config.getInstance().setBackground(bgImage);
     bricks = new ArrayList<>();
     gameplayManager.createLevel(bricks);
 
