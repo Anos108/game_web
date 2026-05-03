@@ -1079,3 +1079,102 @@
 2026-05-03 19:03:46,073 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance created: {app_name: default, host_name: localhost:8080, instance_id: 1jglnd5gedxldkxa3djwc5pdi, browser: Microsoft Edge 147.0.0.0, browser_url: http://localhost:8080/, client_ip: 0:0:0:0:0:0:0:1}
 2026-05-03 19:03:54,781 [INFO] from com.jpro.internal.server.JProWSEndpoint in [0x579c290a 0x09d169f2] WebServer socket - Frame received after poison, ignoring
 2026-05-03 19:03:54,781 [INFO] from com.jpro.internal.server.JProWSEndpoint in [0x579c290a 0x09d169f2] WebServer socket - WebSocket for [default] closed: 1000 – tab-closed
+2026-05-03 19:06:35,161 [INFO] from com.jpro.activity in scala-execution-context-global-39 - Starting the server
+2026-05-03 19:06:35,163 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-39 -  *** Starting JPro: https://www.jpro.one/ ***
+2026-05-03 19:06:35,163 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-39 - OS: Windows 11
+2026-05-03 19:06:35,171 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-39 - JPro: 2026.1.1
+2026-05-03 19:06:35,171 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-39 - Java version: 26.0.1
+2026-05-03 19:06:35,171 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-39 - JVM: 26.0.1 Oracle Corporation
+2026-05-03 19:06:35,173 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-39 - JavaFX jar: file:/C:/Users/lehas/.m2/repository/org/openjfx/javafx-graphics/25.0.2-jpro+1/javafx-graphics-25.0.2-jpro+1-win.jar
+2026-05-03 19:06:35,175 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-39 - Configuring logging from url: 'jar:file:/C:/Users/lehas/.m2/repository/one/jpro/jpro-server_2.12/2026.1.1/jpro-server_2.12-2026.1.1.jar!/logback-jpro-default.xml'
+2026-05-03 19:06:35,747 [INFO] from com.jpro.internal.server.JProInitializer$ in JavaFX Application Thread - JavaFX version: 25.0.2-jpro+1
+2026-05-03 19:06:35,829 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-39 - finished init!
+2026-05-03 19:06:35,832 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-39 - [JPro] -> Server started: {start_time: 1777809995160, os_name: Windows 11, jpro_version: 2026.1.1, pid: 12252, servername: E577}
+2026-05-03 19:06:35,916 [INFO] from com.jpro.internal.server.Route$ in Thread-0 - Creating routing for JPro server
+2026-05-03 19:06:35,979 [INFO] from io.helidon.common.features.HelidonFeatures in features-thread - Helidon SE 4.2.6 features: [Config, Encoding, Media, Metrics, Registry, WebServer, WebSocket]
+2026-05-03 19:06:35,983 [INFO] from io.helidon.webserver.ServerListener in start @default (/0.0.0.0:8080) - [0x2746c1d1] http://0.0.0.0:8080 bound for socket '@default'
+2026-05-03 19:06:35,989 [INFO] from io.helidon.webserver.LoomServer in Thread-0 - Started all channels in 18 milliseconds. 1656 milliseconds since JVM startup. Java 26.0.1+8-34
+2026-05-03 19:06:36,889 [INFO] from com.jpro.internal.server.JProWSEndpoint in [0x2746c1d1 0x36d79111] WebServer socket - application requested: default params: Map()
+2026-05-03 19:06:36,891 [INFO] from com.jpro.internal.server.JProWSEndpoint in [0x2746c1d1 0x36d79111] WebServer socket - Creating Application: default
+2026-05-03 19:06:36,891 [INFO] from com.jpro.internal.server.JProWSEndpoint in [0x2746c1d1 0x36d79111] WebServer socket - remoteAddress 0:0:0:0:0:0:0:1
+2026-05-03 19:06:36,891 [INFO] from com.jpro.internal.server.JProWSEndpoint in [0x2746c1d1 0x36d79111] WebServer socket - host          
+2026-05-03 19:06:36,891 [INFO] from com.jpro.internal.server.JProWSEndpoint in [0x2746c1d1 0x36d79111] WebServer socket - uri           /app/ws/default
+2026-05-03 19:06:36,903 [INFO] from com.jpro.internal.server.JProWSEndpoint in [0x2746c1d1 0x36d79111] WebServer socket - Application found.
+2026-05-03 19:06:36,968 [INFO] from com.jpro.internal.server.JProWSEndpoint in [0x2746c1d1 0x36d79111] WebServer socket - Handshake received: 1fc848e7be83856bef963b103116f03f
+2026-05-03 19:06:37,240 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View created: {app_name: default, host_name: localhost:8080, instance_id: c3mtokhptfd4tsomg4js3ozjt, browser: Microsoft Edge 147.0.0.0, browser_url: http://localhost:8080/, client_ip: 0:0:0:0:0:0:0:1}
+2026-05-03 19:06:38,853 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance created: {app_name: default, host_name: localhost:8080, instance_id: c3mtokhptfd4tsomg4js3ozjt, browser: Microsoft Edge 147.0.0.0, browser_url: http://localhost:8080/, client_ip: 0:0:0:0:0:0:0:1}
+2026-05-03 19:06:53,223 [INFO] from com.jpro.internal.server.JProWSEndpoint in [0x2746c1d1 0x36d79111] WebServer socket - Frame received after poison, ignoring
+2026-05-03 19:06:53,223 [INFO] from com.jpro.internal.server.JProWSEndpoint in [0x2746c1d1 0x36d79111] WebServer socket - WebSocket for [default] closed: 1000 – tab-closed
+2026-05-03 19:06:53,225 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View closed: {app_name: default, host_name: localhost:8080, instance_id: c3mtokhptfd4tsomg4js3ozjt, browser: Microsoft Edge 147.0.0.0, browser_url: http://localhost:8080/, client_ip: 0:0:0:0:0:0:0:1, reason: tab-closed}
+2026-05-03 19:06:53,228 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - 
+2026-05-03 19:06:53,228 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - Application closed:
+2026-05-03 19:06:53,235 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - startTime      : Sun May 03 19:06:37 GMT+07:00 2026      
+2026-05-03 19:06:53,235 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - duration       : 00:00:16.096 
+2026-05-03 19:06:53,236 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - averageLatency : 00:00:00.004 
+2026-05-03 19:06:53,236 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - averageJitter  : 00:00:00.006  
+2026-05-03 19:06:53,239 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - framerateServer: 00:00:00.000
+2026-05-03 19:06:53,240 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - framerateClient: 00:00:00.000
+2026-05-03 19:06:53,240 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - raw            : 33444
+2026-05-03 19:06:53,240 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - zipped         : 5621
+2026-05-03 19:06:53,240 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - 
+2026-05-03 19:06:54,234 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance closed: {app_name: default, host_name: localhost:8080, instance_id: c3mtokhptfd4tsomg4js3ozjt, browser: Microsoft Edge 147.0.0.0, browser_url: http://localhost:8080/, client_ip: 0:0:0:0:0:0:0:1, reason: close-tab-closed}
+2026-05-03 19:09:06,998 [INFO] from com.jpro.activity in scala-execution-context-global-39 - Starting the server
+2026-05-03 19:09:07,000 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-39 -  *** Starting JPro: https://www.jpro.one/ ***
+2026-05-03 19:09:07,000 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-39 - OS: Windows 11
+2026-05-03 19:09:07,007 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-39 - JPro: 2026.1.1
+2026-05-03 19:09:07,007 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-39 - Java version: 26.0.1
+2026-05-03 19:09:07,007 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-39 - JVM: 26.0.1 Oracle Corporation
+2026-05-03 19:09:07,008 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-39 - JavaFX jar: file:/C:/Users/lehas/.m2/repository/org/openjfx/javafx-graphics/25.0.2-jpro+1/javafx-graphics-25.0.2-jpro+1-win.jar
+2026-05-03 19:09:07,011 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-39 - Configuring logging from url: 'jar:file:/C:/Users/lehas/.m2/repository/one/jpro/jpro-server_2.12/2026.1.1/jpro-server_2.12-2026.1.1.jar!/logback-jpro-default.xml'
+2026-05-03 19:09:07,585 [INFO] from com.jpro.internal.server.JProInitializer$ in JavaFX Application Thread - JavaFX version: 25.0.2-jpro+1
+2026-05-03 19:09:07,687 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-39 - finished init!
+2026-05-03 19:09:07,690 [INFO] from com.jpro.internal.server.JProInitializer$ in scala-execution-context-global-39 - [JPro] -> Server started: {start_time: 1777810146997, os_name: Windows 11, jpro_version: 2026.1.1, pid: 1176, servername: H198}
+2026-05-03 19:09:07,770 [INFO] from com.jpro.internal.server.Route$ in Thread-0 - Creating routing for JPro server
+2026-05-03 19:09:07,837 [INFO] from io.helidon.common.features.HelidonFeatures in features-thread - Helidon SE 4.2.6 features: [Config, Encoding, Media, Metrics, Registry, WebServer, WebSocket]
+2026-05-03 19:09:07,844 [INFO] from io.helidon.webserver.ServerListener in start @default (/0.0.0.0:8080) - [0x02d90efa] http://0.0.0.0:8080 bound for socket '@default'
+2026-05-03 19:09:07,852 [INFO] from io.helidon.webserver.LoomServer in Thread-0 - Started all channels in 21 milliseconds. 1742 milliseconds since JVM startup. Java 26.0.1+8-34
+2026-05-03 19:09:08,676 [INFO] from com.jpro.internal.server.JProWSEndpoint in [0x02d90efa 0x18c77e4c] WebServer socket - application requested: default params: Map()
+2026-05-03 19:09:08,677 [INFO] from com.jpro.internal.server.JProWSEndpoint in [0x02d90efa 0x18c77e4c] WebServer socket - Creating Application: default
+2026-05-03 19:09:08,677 [INFO] from com.jpro.internal.server.JProWSEndpoint in [0x02d90efa 0x18c77e4c] WebServer socket - remoteAddress 0:0:0:0:0:0:0:1
+2026-05-03 19:09:08,677 [INFO] from com.jpro.internal.server.JProWSEndpoint in [0x02d90efa 0x18c77e4c] WebServer socket - host          
+2026-05-03 19:09:08,677 [INFO] from com.jpro.internal.server.JProWSEndpoint in [0x02d90efa 0x18c77e4c] WebServer socket - uri           /app/ws/default
+2026-05-03 19:09:08,686 [INFO] from com.jpro.internal.server.JProWSEndpoint in [0x02d90efa 0x18c77e4c] WebServer socket - Application found.
+2026-05-03 19:09:08,744 [INFO] from com.jpro.internal.server.JProWSEndpoint in [0x02d90efa 0x18c77e4c] WebServer socket - Handshake received: 1fc848e7be83856bef963b103116f03f
+2026-05-03 19:09:09,003 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View created: {app_name: default, host_name: localhost:8080, instance_id: 338co29ogxtvejg4mwmjb5zbg, browser: Microsoft Edge 147.0.0.0, browser_url: http://localhost:8080/, client_ip: 0:0:0:0:0:0:0:1}
+2026-05-03 19:09:10,170 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance created: {app_name: default, host_name: localhost:8080, instance_id: 338co29ogxtvejg4mwmjb5zbg, browser: Microsoft Edge 147.0.0.0, browser_url: http://localhost:8080/, client_ip: 0:0:0:0:0:0:0:1}
+2026-05-03 19:09:12,250 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2026-05-03 19:09:13,561 [INFO] from com.jpro.meta.tk.SceneInputListener in JavaFX Application Thread - On disposing SceneInputListener: primaryScene.window was null. Skipped the forced release of the mouse.
+2026-05-03 19:09:19,097 [WARN] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - Unsupported Object: com.sun.scenario.effect.DropShadow@7a40683e ... com.sun.scenario.effect.DropShadow
+2026-05-03 19:09:19,111 [WARN] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - Unsupported Object: com.sun.scenario.effect.DropShadow@13bcf334 ... com.sun.scenario.effect.DropShadow
+2026-05-03 19:09:19,127 [WARN] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - Unsupported Object: com.sun.scenario.effect.DropShadow@620f07be ... com.sun.scenario.effect.DropShadow
+2026-05-03 19:09:19,144 [WARN] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - Unsupported Object: com.sun.scenario.effect.DropShadow@21ccd0e7 ... com.sun.scenario.effect.DropShadow
+2026-05-03 19:09:19,160 [WARN] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - Unsupported Object: com.sun.scenario.effect.DropShadow@4f5e7d95 ... com.sun.scenario.effect.DropShadow
+2026-05-03 19:09:19,175 [WARN] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - Unsupported Object: com.sun.scenario.effect.DropShadow@1ca1a263 ... com.sun.scenario.effect.DropShadow
+2026-05-03 19:09:19,191 [WARN] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - Unsupported Object: com.sun.scenario.effect.DropShadow@19152c0b ... com.sun.scenario.effect.DropShadow
+2026-05-03 19:09:19,208 [WARN] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - Unsupported Object: com.sun.scenario.effect.DropShadow@3dbe605a ... com.sun.scenario.effect.DropShadow
+2026-05-03 19:09:19,223 [WARN] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - Unsupported Object: com.sun.scenario.effect.DropShadow@2a0e7f7f ... com.sun.scenario.effect.DropShadow
+2026-05-03 19:09:19,239 [WARN] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - Unsupported Object: com.sun.scenario.effect.DropShadow@70d835bc ... com.sun.scenario.effect.DropShadow
+2026-05-03 19:09:19,255 [WARN] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - Unsupported Object: com.sun.scenario.effect.DropShadow@27c8b6e0 ... com.sun.scenario.effect.DropShadow
+2026-05-03 19:09:19,271 [WARN] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - Unsupported Object: com.sun.scenario.effect.DropShadow@653afefa ... com.sun.scenario.effect.DropShadow
+2026-05-03 19:09:19,288 [WARN] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - Unsupported Object: com.sun.scenario.effect.DropShadow@3c9d6d96 ... com.sun.scenario.effect.DropShadow
+2026-05-03 19:09:19,301 [WARN] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - Unsupported Object: com.sun.scenario.effect.DropShadow@404696a3 ... com.sun.scenario.effect.DropShadow
+2026-05-03 19:09:19,319 [WARN] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - Unsupported Object: com.sun.scenario.effect.DropShadow@39af7802 ... com.sun.scenario.effect.DropShadow
+2026-05-03 19:09:19,335 [WARN] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - Unsupported Object: com.sun.scenario.effect.DropShadow@45462443 ... com.sun.scenario.effect.DropShadow
+2026-05-03 19:09:19,351 [WARN] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - Unsupported Object: com.sun.scenario.effect.DropShadow@54bc962 ... com.sun.scenario.effect.DropShadow
+2026-05-03 19:09:19,366 [WARN] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - Unsupported Object: com.sun.scenario.effect.DropShadow@bd359e2 ... com.sun.scenario.effect.DropShadow
+2026-05-03 19:09:19,383 [WARN] from com.jpro.meta.stream.FXSerializer$$anon$1 in JavaFX Application Thread - Unsupported Object: com.sun.scenario.effect.DropShadow@6b1bb20d ... com.sun.scenario.effect.DropShadow
+2026-05-03 19:09:23,879 [INFO] from com.jpro.internal.server.JProWSEndpoint in [0x02d90efa 0x18c77e4c] WebServer socket - Frame received after poison, ignoring
+2026-05-03 19:09:23,879 [INFO] from com.jpro.internal.server.JProWSEndpoint in [0x02d90efa 0x18c77e4c] WebServer socket - WebSocket for [default] closed: 1000 – tab-closed
+2026-05-03 19:09:23,882 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - [JPro] -> View closed: {app_name: default, host_name: localhost:8080, instance_id: 338co29ogxtvejg4mwmjb5zbg, browser: Microsoft Edge 147.0.0.0, browser_url: http://localhost:8080/, client_ip: 0:0:0:0:0:0:0:1, reason: tab-closed}
+2026-05-03 19:09:23,903 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - 
+2026-05-03 19:09:23,903 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - Application closed:
+2026-05-03 19:09:23,914 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - startTime      : Sun May 03 19:09:08 GMT+07:00 2026      
+2026-05-03 19:09:23,914 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - duration       : 00:00:14.991 
+2026-05-03 19:09:23,914 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - averageLatency : 00:00:00.002 
+2026-05-03 19:09:23,914 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - averageJitter  : 00:00:00.000  
+2026-05-03 19:09:23,915 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - framerateServer: 00:00:00.000
+2026-05-03 19:09:23,916 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - framerateClient: 00:00:00.000
+2026-05-03 19:09:23,916 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - raw            : 5037188
+2026-05-03 19:09:23,916 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - zipped         : 682726
+2026-05-03 19:09:23,916 [INFO] from com.jpro.internal.stats.ViewInfo$ in JavaFX Application Thread - 
+2026-05-03 19:09:24,893 [INFO] from com.jpro.internal.communicator.InstanceImpl in JavaFX Application Thread - [JPro] -> Instance closed: {app_name: default, host_name: localhost:8080, instance_id: 338co29ogxtvejg4mwmjb5zbg, browser: Microsoft Edge 147.0.0.0, browser_url: http://localhost:8080/, client_ip: 0:0:0:0:0:0:0:1, reason: close-tab-closed}

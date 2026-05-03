@@ -1,3 +1,19 @@
+/* Full-bleed behind scaled 800×800 UI (menu / difficulty) — same image as old menu ImageView. */
+.menu-scene-backdrop {
+    -fx-background-image: url('../../../asset/images/menu_background.png');
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+}
+
+/* Letterbox fill for game-over scene (matches in-panel art). */
+.game-over-scene-backdrop {
+    -fx-background-image: url('../../../asset/images/game_over_background.jpg');
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+}
+
 /* Full-bleed blurred backdrop behind the playfield (JavaFX: blur/brightness via code, not web filter). */
 .game-play-backdrop {
     -fx-background-image: url('../../../asset/images/background.png');

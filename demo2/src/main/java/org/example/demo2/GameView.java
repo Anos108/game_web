@@ -216,7 +216,8 @@ public class GameView extends Application {
       Parent root = loader.load();
       GameOverController controller = loader.getController();
       controller.setScore(GameplayManager.getScore());
-      Scene scene = ResponsiveSceneFactory.create(root);
+      Scene scene =
+          ResponsiveSceneFactory.create(root, ResponsiveSceneFactory.SceneBackdrop.GAME_OVER);
       primaryStage.setScene(scene);
     } catch (IOException e) {
       e.printStackTrace();
